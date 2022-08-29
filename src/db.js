@@ -16,28 +16,30 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 // Activity
-db.Activity = require("./models/Activity.model.js")(sequelize, Sequelize);
+db.Activity = require("../models/Activity.model.js")(sequelize, Sequelize);
 
 // // ActivityQuestion
-// db.ActivityQuestion = require("./models/ActivityQuestion.model.js")(sequelize, Sequelize);
+// db.ActivityQuestion = require("../models/ActivityQuestion.model.js")(sequelize, Sequelize);
 
 // // DailyUsage
-// db.DailyUsage = require("./models/DailyUsage.model.js")(sequelize, Sequelize);
+// db.DailyUsage = require("../models/DailyUsage.model.js")(sequelize, Sequelize);
 
 // // EndFormAnswers
-// db.EndFormAnswers = require("./models/EndFormAnswers.model.js")(sequelize, Sequelize);
+// db.EndFormAnswers = require("../models/EndFormAnswers.model.js")(sequelize, Sequelize);
 
 // // MiddleFormAnswers
-// db.MiddleFormAnswers = require("./models/MiddleFormAnswers.model.js")(sequelize, Sequelize);
+// db.MiddleFormAnswers = require("../models/MiddleFormAnswers.model.js")(sequelize, Sequelize);
 
 // Photo
-db.Photo = require("./models/Photo.model.js")(sequelize, Sequelize);
+db.Photo = require("../models/Photo.model.js")(sequelize, Sequelize);
 
 // User
-db.User = require("./models/User.model.js")(sequelize, Sequelize);
+db.User = require("../models/User.model.js")(sequelize, Sequelize);
+db.User = require("../models/User.model.js")(sequelize, Sequelize);
+
 
 // UserRegistryInfo
-db.UserRegistryInfo = require("./models/UserRegistryInfo.model.js")(sequelize, Sequelize);
+db.UserRegistryInfo = require("../models/UserRegistryInfo.model.js")(sequelize, Sequelize);
 
 // db.User.belongsTo(db.UserRegistryInfo, { as: 'registryInfo', foreignKey: 'UserId' });
 db.User.hasMany(db.Photo, { as: 'photos', foreignKey: { name: 'userId', field: 'Id' } });
@@ -45,9 +47,9 @@ db.User.hasMany(db.Photo, { as: 'photos', foreignKey: { name: 'userId', field: '
 
 
 
-// db.customers = require("./models/customer.model.js")(sequelize, Sequelize);
-// db.products = require("./models/product.model.js")(sequelize, Sequelize);
-// db.orders = require("./models/order.model.js")(sequelize, Sequelize);
+// db.customers = require("../models/customer.model.js")(sequelize, Sequelize);
+// db.products = require("../models/product.model.js")(sequelize, Sequelize);
+// db.orders = require("../models/order.model.js")(sequelize, Sequelize);
 
 // db.customers.hasMany(db.orders,{ as: 'orders', foreignKey: 'customer_id' });
 // db.orders.belongsTo(db.products,{ as: 'product', foreignKey: 'product_id' });
