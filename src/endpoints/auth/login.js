@@ -1,5 +1,7 @@
 const db = require("../../db.js");
 const bcrypt = require("bcryptjs");
+const jwt = require('jsonwebtoken')
+
 
 const EdigaUser = db.EdigaUser;
 
@@ -13,7 +15,7 @@ async function login(req, res) {
 		})
 	}
 	try {
-		const user = await EdigaUser.findOne({ where: {email: email} })
+		const user = await EdigaUser.findOne({ where: { email: email } })
 		if (!user) {
 			res.status(400).json({
 				message: "Login unsuccessful",
@@ -21,17 +23,30 @@ async function login(req, res) {
 			})
 		} else {
 			// comparing given password with hashed password
+			const jwtSecretKey = process.env.JWT_SECRET_KEY;
 			bcrypt.compare(password, user.password).then(function (result) {
-				result
-					? res.status(200).json({
+				if (result) {
+					const maxAge = 3 * 60 * 60;
+					const token = jwt.sign(
+						{ id: user.edigaUserId },
+						jwtSecretKey,
+						{ expiresIn: maxAge } // 3 hs in secs
+					);
+					res.cookie("jwt", token, {
+						httpOnly: true,
+						maxAge: maxAge * 1000, // 3hrs in ms
+					});
+					res.status(200).json({
 						message: "Login successful",
 						user: {
 							edigaUserId: user.edigaUserId,
 							email: user.email,
-							name: user.name
 						},
-					})
-					: res.status(400).json({ message: "Email or password are incorrect. Try again" })
+					});
+				} else {
+					res.status(400).json({ message: "Email or password are incorrect. Try again" });
+				}
+
 			})
 		}
 	} catch (error) {
