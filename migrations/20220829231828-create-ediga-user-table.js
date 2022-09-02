@@ -3,16 +3,16 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('EdigaUser', {
-      ediga_user_id: {
+      edigaUserId: {
         type: Sequelize.UUID,
-        allowNull: false
+        allowNull: false.valueOf,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
       },
       email: Sequelize.STRING,
       name: Sequelize.STRING,
-      password_hash: Sequelize.STRING,
+      password: Sequelize.STRING,
       profile_image: Sequelize.STRING,
-      email_verified_at: Sequelize.DATE,
-      token: Sequelize.STRING,
       created_at: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn('NOW')
