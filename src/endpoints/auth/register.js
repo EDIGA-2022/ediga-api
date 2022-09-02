@@ -8,6 +8,9 @@ async function register(req, res) {
   if (password.length < 6) {
     return res.status(400).json({ message: "Password less than 6 characters" })
   }
+  if (!email) {
+    return res.status(400).json({message: "Email is required"});
+  }
   const dbEmail = await EdigaUser.findOne({ where: { email: email } });
   if (dbEmail) {
     return res.status(400).json({ message: "User already exists" })
