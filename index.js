@@ -1,6 +1,7 @@
 'use strict';
 const getUserPhotos = require('./src/endpoints/getUserPhotos');
 const getUsers = require('./src/endpoints/getUsers');
+const createParticipant = require('./src/endpoints/createParticipant');
 
 // import express
 const express = require('express');
@@ -29,6 +30,9 @@ app.get('/api/users', getUsers);
 
 // get all photos of a user with userId
 app.get('/api/photos/:userId', getUserPhotos);
+
+// create new participant
+app.post('/api/createParticipant', createParticipant);
 
 app.listen(port, () => {
     console.log(`API running on http://localhost:${port}`);
