@@ -14,6 +14,10 @@ module.exports = (sequelize, Sequelize) => {
 		},
 		name: {
 			type: Sequelize.STRING,
+		},
+		first_log_in: {
+			type: Sequelize.BOOLEAN,
+			defaultValue: true,
 		}
 	},
 		{
