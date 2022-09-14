@@ -26,6 +26,7 @@ async function register(req, res) {
       email,
       name,
       password: hash,
+      firstLogin: true,
     })
       .then((user) =>{
         const maxAge = 3 * 60 * 60;
