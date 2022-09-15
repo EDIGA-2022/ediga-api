@@ -1,6 +1,7 @@
 'use strict';
 const getUserPhotos = require('./src/endpoints/getUserPhotos');
 const getUsers = require('./src/endpoints/getUsers');
+const listUsers = require('./src/endpoints/users/listUsers');
 
 // import express
 const express = require('express');
@@ -26,6 +27,8 @@ app.use(bodyParser.json());
 
 // get all users
 app.get('/api/users', getUsers);
+// get all users register info
+app.get('/api/usersRegisterInfo', listUsers);
 
 // get all photos of a user with userId
 app.get('/api/photos/:userId', getUserPhotos);
