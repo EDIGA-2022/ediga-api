@@ -2,6 +2,9 @@
 const getUserPhotos = require('./src/endpoints/getUserPhotos');
 const getUsers = require('./src/endpoints/getUsers');
 const listUsers = require('./src/endpoints/users/listUsers');
+const createParticipant = require('./src/endpoints/createParticipant');
+const getUser = require('./src/endpoints/getUser');
+const editUser = require('./src/endpoints/editUser');
 
 // import express
 const express = require('express');
@@ -32,6 +35,15 @@ app.get('/api/usersRegisterInfo', listUsers);
 
 // get all photos of a user with userId
 app.get('/api/photos/:userId', getUserPhotos);
+
+// create new participant
+app.post('/api/createParticipant', createParticipant);
+
+// edit participant
+app.post('/api/editUser', editUser);
+
+// get user
+app.get('/api/user/:userId', getUser);
 
 app.listen(port, () => {
     console.log(`API running on http://localhost:${port}`);
