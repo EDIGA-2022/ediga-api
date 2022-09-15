@@ -32,6 +32,10 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             field: 'Answer_3_open_field'   
         },
+        alias: {
+            type: Sequelize.STRING,
+            field: 'Alias'   
+        }
     });
     
     return UserRegisterInfo;
