@@ -1,8 +1,7 @@
 'use strict';
 const getUserPhotos = require('./src/endpoints/getUserPhotos');
 const getUsers = require('./src/endpoints/getUsers');
-const listUsers = require('./src/endpoints/users/listUsers');
-const createParticipant = require('./src/endpoints/createParticipant');
+const createUser = require('./src/endpoints/createUser');
 const getUser = require('./src/endpoints/getUser');
 const editUser = require('./src/endpoints/editUser');
 
@@ -30,17 +29,15 @@ app.use(bodyParser.json());
 
 // get all users
 app.get('/api/users', getUsers);
-// get all users register info
-app.get('/api/usersRegisterInfo', listUsers);
 
 // get all photos of a user with userId
 app.get('/api/photos/:userId', getUserPhotos);
 
 // create new participant
-app.post('/api/createParticipant', createParticipant);
+app.post('/api/createUser', createUser);
 
 // edit participant
-app.post('/api/editUser', editUser);
+app.put('/api/editUser', editUser);
 
 // get user
 app.get('/api/user/:userId', getUser);

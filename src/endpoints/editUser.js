@@ -5,6 +5,7 @@ const { Op } = require("sequelize");
 
 async function editUser(req, res) {
     var userId = req.body.userId;
+    var alias = req.body.alias;
     var country = req.body.userCountry;
     var answer1 = req.body.answer1;
     var answer2 = req.body.answer2;
@@ -12,13 +13,15 @@ async function editUser(req, res) {
     var answer3 = req.body.answer3;
     //acá se guarda el ig, me fijo si no hay un usuario que ya lo tenga
     var answer3Field = req.body.answer3openField;
-    var igUser = await UserRegisterInfo.findOne({ 
+    if (answer3Field != null && answer3Field != "") {
+      var igUser = await UserRegisterInfo.findOne({ 
         where: {
          [Op.and]: [{ answer3Field: answer3Field }, {userId:{[Op.ne]:userId }}]
         }
-    });
-    if (igUser) {
-        return res.status(400).json({ message: "Existe un participante con el mismo usuario de Instagram" })
+      });
+      if (igUser) {
+          return res.status(400).json({ message: "Existe un participante con el mismo usuario de Instagram" })
+      }
     }
     //controles de campos obligatorios
     if (!country) {
@@ -46,6 +49,7 @@ async function editUser(req, res) {
         answer1Field: answer1Field,
         answer3: answer3,
         answer3Field: answer3Field,
+        alias: alias,
     },
     {
       where: { userId: userId },
