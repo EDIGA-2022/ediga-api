@@ -36,6 +36,9 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             field: 'Alias'   
         }
+    },
+    {
+        freezeTableName: true,
     });
     
     return UserRegisterInfo;

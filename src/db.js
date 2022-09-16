@@ -40,7 +40,7 @@ db.User = require("../models/User.model.js")(sequelize, Sequelize);
 // UserRegistryInfo
 db.UserRegisterInfo = require("../models/UserRegisterInfo.model.js")(sequelize, Sequelize);
 
-// db.User.belongsTo(db.UserRegistryInfo, { as: 'registryInfo', foreignKey: 'UserId' });
+db.User.hasOne(db.UserRegisterInfo, { as: 'registerInfo', foreignKey: 'UserId' });
 db.User.hasMany(db.Photo, { as: 'photos', foreignKey: { name: 'userId', field: 'Id' } });
 
 
