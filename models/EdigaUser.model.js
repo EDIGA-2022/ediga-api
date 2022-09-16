@@ -11,13 +11,17 @@ module.exports = (sequelize, Sequelize) => {
 		},
 		password: {
 			type: Sequelize.STRING,
+			get() {
+				return () => this.getDataValue('password');
+			}
 		},
 		name: {
 			type: Sequelize.STRING,
 		},
-		first_log_in: {
+		firstLogIn: {
 			type: Sequelize.BOOLEAN,
 			defaultValue: true,
+			field: 'first_log_in'
 		}
 	},
 		{

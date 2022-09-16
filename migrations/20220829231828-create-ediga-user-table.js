@@ -29,3 +29,4 @@ module.exports = {
     await queryInterface.dropTable('EdigaUser');
   }
 };
+

@@ -37,10 +37,12 @@ async function register(req, res) {
             expiresIn: maxAge, // 3hrs in sec
           }
         );
-        res.cookie("jwt", token, {
-          httpOnly: true,
-          maxAge: maxAge * 1000, // 3hrs in ms
-        });
+        // This code is intendedly deleted, as we don't want the admin to be logged in.
+        
+        // res.cookie("jwt", token, {
+        //   httpOnly: true,
+        //   maxAge: maxAge * 1000, // 3hrs in ms
+        // });
         res.status(200).json({
           message: "User successfully created",
           user: {

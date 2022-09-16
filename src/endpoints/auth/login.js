@@ -24,7 +24,7 @@ async function login(req, res) {
 		} else {
 			// comparing given password with hashed password
 			const jwtSecretKey = process.env.JWT_SECRET_KEY;
-			bcrypt.compare(password, user.password).then(function (result) {
+			bcrypt.compare(password, user.password()).then(function (result) {
 				if (result) {
 					const maxAge = 3 * 60 * 60;
 					const token = jwt.sign(

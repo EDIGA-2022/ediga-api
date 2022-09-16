@@ -3,14 +3,17 @@ const getUserPhotos = require('./src/endpoints/getUserPhotos');
 const getUsers = require('./src/endpoints/getUsers');
 const login = require('./src/endpoints/auth/login');
 const register = require('./src/endpoints/auth/register')
+const passwordReset = require('./src/endpoints/auth/passwordReset');
 
 // import express
 const express = require('express');
 // import body-parser
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+
 // create server
 const app = express();
-const cors = require('cors')
+const cors = require('cors');
 const corsOptions = {
     origin: '*',
     credentials: true, //access-control-allow-credentials:true
@@ -24,6 +27,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // message in JSON format
 app.use(bodyParser.json());
 
+app.use(cookieParser()); 
+
+
+
 // routes
 
 // get all users
@@ -34,6 +41,7 @@ app.get('/api/photos/:userId', getUserPhotos);
 
 app.post('/api/login', login)
 app.post('/api/register', register)
+app.post('/api/password-reset', passwordReset)
 
 app.listen(port, () => {
     console.log(`API running on http://localhost:${port}`);
