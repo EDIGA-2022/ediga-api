@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-const Sequelize = require("sequelize");
+const {Sequelize} = require("sequelize");
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
@@ -37,14 +37,14 @@ db.Photo = require("../models/Photo.model.js")(sequelize, Sequelize);
 db.User = require("../models/User.model.js")(sequelize, Sequelize);
 db.User = require("../models/User.model.js")(sequelize, Sequelize);
 
+// EdigaUser
+db.EdigaUser = require("../models/EdigaUser.model")(sequelize, Sequelize);
 
 // UserRegistryInfo
 db.UserRegistryInfo = require("../models/UserRegistryInfo.model.js")(sequelize, Sequelize);
 
 // db.User.belongsTo(db.UserRegistryInfo, { as: 'registryInfo', foreignKey: 'UserId' });
 db.User.hasMany(db.Photo, { as: 'photos', foreignKey: { name: 'userId', field: 'Id' } });
-
-
 
 
 // db.customers = require("../models/customer.model.js")(sequelize, Sequelize);
