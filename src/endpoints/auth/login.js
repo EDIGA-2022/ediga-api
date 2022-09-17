@@ -18,8 +18,8 @@ async function login(req, res) {
 		const user = await EdigaUser.findOne({ where: { email: email } })
 		if (!user) {
 			res.status(400).json({
-				message: "Login unsuccessful",
-				error: "User not found",
+				error: "Login unsuccessful",
+				message: "User not found",
 			})
 		} else {
 			// comparing given password with hashed password

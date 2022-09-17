@@ -17,7 +17,7 @@ async function register(req, res) {
   // Email is already registered
   const dbEmail = await EdigaUser.findOne({ where: { email: email } });
   if (dbEmail) {
-    return res.status(400).json({ message: "User already exists" })
+    return res.status(400).json({ message: "El usuario ya existe" })
   }
   const jwtSecretKey = process.env.JWT_SECRET_KEY;
   // Create user with hashed password
@@ -38,7 +38,7 @@ async function register(req, res) {
           }
         );
         // This code is intendedly deleted, as we don't want the admin to be logged in.
-        
+
         // res.cookie("jwt", token, {
         //   httpOnly: true,
         //   maxAge: maxAge * 1000, // 3hrs in ms
