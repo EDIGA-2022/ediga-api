@@ -1,6 +1,9 @@
 'use strict';
 const getUserPhotos = require('./src/endpoints/getUserPhotos');
 const getUsers = require('./src/endpoints/getUsers');
+const getUser = require('./src/endpoints/getUser');
+// const blurimage = require('./src/endpoints/blurimage');
+
 
 // import express
 const express = require('express');
@@ -27,8 +30,15 @@ app.use(bodyParser.json());
 // get all users
 app.get('/api/users', getUsers);
 
+// get user data
+app.get('/api/users/:userId', getUser);
+
 // get all photos of a user with userId
 app.get('/api/photos/:userId', getUserPhotos);
+
+//blur faces
+// app.get('/api/blur', blurimage);
+
 
 app.listen(port, () => {
     console.log(`API running on http://localhost:${port}`);
