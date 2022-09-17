@@ -5,6 +5,8 @@ module.exports = (sequelize, Sequelize) => {
 			type: Sequelize.UUID,
 			defaultValue: Sequelize.UUIDV4,
 			allowNull: false,
+			field: 'ediga_user_id'
+
 		},
 		email: {
 			type: Sequelize.STRING,
