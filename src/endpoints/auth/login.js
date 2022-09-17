@@ -26,21 +26,22 @@ async function login(req, res) {
 			const jwtSecretKey = process.env.JWT_SECRET_KEY;
 			bcrypt.compare(password, user.password()).then(function (result) {
 				if (result) {
-					const maxAge = 3 * 60 * 60;
+					const maxAge = 24 * 60 * 60;
 					const token = jwt.sign(
 						{ id: user.edigaUserId },
 						jwtSecretKey,
-						{ expiresIn: maxAge } // 3 hs in secs
+						{ expiresIn: maxAge } // 24 hs in secs
 					);
 					res.cookie("jwt", token, {
-						httpOnly: true,
-						maxAge: maxAge * 1000, // 3hrs in ms
+						// httpOnly: true,
+						maxAge: maxAge * 1000, // 24hrs in ms
 					});
 					res.status(200).json({
 						message: "Login successful",
 						user: {
 							edigaUserId: user.edigaUserId,
 							email: user.email,
+							name: user.name,
 							firstLogIn: user.firstLogIn
 						},
 					});

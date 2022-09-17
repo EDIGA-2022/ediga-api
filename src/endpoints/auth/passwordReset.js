@@ -19,13 +19,13 @@ async function passwordReset(req, res) {
             })
         } else {
             return res.status(500).json({
-                message: "Password not updated",
+                message: "Contraseña no actualizada",
                 error: response.message
             })
         }
     }
     res.status(401).json({
-        message: "Password not updated",
+        message: "Contraseña no actualizada",
         error: "Unauthorized"
     })
 }
@@ -34,7 +34,7 @@ async function setPassword(user, password) {
     if (password.length < 6) {
         return ({
             success: false,
-            message: "Password less than 6 characters"
+            message: "La contraseña debe tener mas de 6 caracteres."
         })
     }
     hash = await bcrypt.hash(password, 10);
@@ -50,7 +50,7 @@ async function setPassword(user, password) {
     } catch (error) {
         return ({
             success: false,
-            message: "Couldn't update user"
+            message: "No se pudo actualizar el usuario."
         });
     }
 }
