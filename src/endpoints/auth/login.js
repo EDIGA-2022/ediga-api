@@ -41,6 +41,7 @@ async function login(req, res) {
 						user: {
 							edigaUserId: user.edigaUserId,
 							email: user.email,
+							firstLogIn: user.firstLogIn
 						},
 					});
 				} else {
