@@ -18,23 +18,18 @@ db.sequelize = sequelize;
 // Activity
 db.Activity = require("../models/Activity.model.js")(sequelize, Sequelize);
 
-// // ActivityQuestion
-// db.ActivityQuestion = require("../models/ActivityQuestion.model.js")(sequelize, Sequelize);
-
-// // DailyUsage
-// db.DailyUsage = require("../models/DailyUsage.model.js")(sequelize, Sequelize);
-
-// // EndFormAnswers
-// db.EndFormAnswers = require("../models/EndFormAnswers.model.js")(sequelize, Sequelize);
-
-// // MiddleFormAnswers
-// db.MiddleFormAnswers = require("../models/MiddleFormAnswers.model.js")(sequelize, Sequelize);
-
 // Photo
 db.Photo = require("../models/Photo.model.js")(sequelize, Sequelize);
 
 // User
 db.User = require("../models/User.model.js")(sequelize, Sequelize);
+
+//MiddleFormAnswers
+db.MiddleFormAnswers = require("../models/MiddleFormAnswers.model.js")(sequelize, Sequelize);
+
+//EndFormAnswers
+db.EndFormAnswers = require("../models/EndFormAnswers.model.js")(sequelize, Sequelize);
+
 
 // EdigaUser
 db.EdigaUser = require("../models/EdigaUser.model")(sequelize, Sequelize);
@@ -44,7 +39,16 @@ db.UserRegisterInfo = require("../models/UserRegisterInfo.model.js")(sequelize, 
 
 db.User.hasOne(db.UserRegisterInfo, { as: 'registerInfo', foreignKey: 'UserId' });
 db.User.hasMany(db.Photo, { as: 'photos', foreignKey: { name: 'userId', field: 'Id' } });
+db.Photo.belongsTo(db.User, { as: 'user', foreignKey: { name: 'userId', field: 'UserId' } });
 
+db.User.hasOne(db.UserRegisterInfo, { as: 'userRegisterInfo', foreignKey: { name: 'userId', field: 'Id' } });
+db.UserRegisterInfo.hasOne(db.User, { as: 'user', foreignKey: { name: 'userId', field: 'UserId' } });
+
+db.User.hasOne(db.MiddleFormAnswers, { as: 'middleFormAnswers', foreignKey: { name: 'userId', field: 'Id' } });
+db.MiddleFormAnswers.hasOne(db.User, { as: 'user', foreignKey: { name: 'userId', field: 'UserId' } });
+
+db.User.hasOne(db.EndFormAnswers, { as: 'endFormAnswers', foreignKey: { name: 'userId', field: 'Id' } });
+db.EndFormAnswers.hasOne(db.User, { as: 'user', foreignKey: { name: 'userId', field: 'UserId' } });
 
 // db.customers = require("../models/customer.model.js")(sequelize, Sequelize);
 // db.products = require("../models/product.model.js")(sequelize, Sequelize);

@@ -1,18 +1,19 @@
 module.exports = (sequelize, Sequelize) => {
     const User = sequelize.define("User", {
-        Id: {
-			primaryKey: true,
-			type: Sequelize.UUID,
+        userId: {
+            type: Sequelize.UUID,
+            field: 'Id',
+            primaryKey: true,
 			defaultValue: Sequelize.UUIDV4,
 			allowNull: false,
-		},
+        },
         country: {
             type: Sequelize.STRING,
         },
-    }, 
-    {
-        freezeTableName: true,
-    });
-    
+    },
+        {
+            freezeTableName: true,
+        }
+    );
     return User;
 };

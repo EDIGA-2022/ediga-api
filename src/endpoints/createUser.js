@@ -32,7 +32,7 @@ async function createUser(req, res) {
         country,
     });
     //ahora creo la info de register
-    const userId = newUser.Id;
+    const userId = newUser.userId;
     const newUserRegisterInfo = await UserRegisterInfo.create({
         userId,
         answer1,

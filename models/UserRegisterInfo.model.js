@@ -6,7 +6,7 @@ module.exports = (sequelize, Sequelize) => {
             field: 'UserId', 
             allowNull: false,       
         },
-        completed_at: {
+        completedAt: {
             type: Sequelize.DATE,
             field: 'Date_of_completion',
             allowNull: false,
@@ -14,7 +14,7 @@ module.exports = (sequelize, Sequelize) => {
         },
         answer1: {
             type: Sequelize.INTEGER,
-            field: 'Answer_1'   
+            field: 'Answer_1'
         },
         answer1Field: {
             type: Sequelize.STRING,
@@ -22,7 +22,7 @@ module.exports = (sequelize, Sequelize) => {
         },
         answer2: {
             type: Sequelize.INTEGER,
-            field: 'Answer_2'   
+            field: 'Answer_2'
         },
         answer3: {
             type: Sequelize.STRING,

@@ -4,15 +4,16 @@ const UserRegisterInfo = db.UserRegisterInfo;
 
 async function getUser(req, res) {
     const userId = req.params.userId;
-    const Id = req.params.userId;
     const users = await User.findOne({
         where: {
-        Id,
-    }});
+            userId,
+        }
+    });
     const registerInfo = await UserRegisterInfo.findOne({
         where: {
             userId,
-    }});
+        }
+    });
     var resp = {
         userCountry: users.country,
         answer1: registerInfo.answer1,
