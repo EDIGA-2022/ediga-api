@@ -14,6 +14,7 @@ const app = express();
 const cors = require('cors')
 const corsOptions = {
     origin: '*',
+    // origin: 'http://localhost:3000',
     credentials: true, //access-control-allow-credentials:true
     optionSuccessStatus: 200,
 }
@@ -31,7 +32,7 @@ app.use(bodyParser.json());
 app.get('/api/users', getUsers);
 
 // get user data
-app.get('/api/users/:userId', getUser);
+app.get('/api/user/:userId', getUser);
 
 // get all photos of a user with userId
 app.get('/api/photos/:userId', getUserPhotos);

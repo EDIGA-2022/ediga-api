@@ -5,7 +5,7 @@ function transformer(user) {
         userId: user.userId,
         country: user.country,
         photos: user.photos.map(p => {
-            p.photo = p.photo.replace('\n', '');
+            p.photo = p.photo.replace(/["\n"]/g, '');
             p.answer1 = getTextAnswer(p.answer1);
             p.answer2 = getTextAnswer(p.answer2);
             p.answer3 = getTextAnswer(p.answer3);
