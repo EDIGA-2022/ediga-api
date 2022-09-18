@@ -1,36 +1,30 @@
 const db = require("../db.js");
-const Photo = db.Photo;
 const User = db.User;
 const UserRegisterInfo = db.UserRegisterInfo;
-const MiddleFormAnswers = db.MiddleFormAnswers;
-const EndFormAnswers = db.EndFormAnswers;
-const transformer = require("./transformer.js");
-const fs = require('fs');
 
 async function getUser(req, res) {
     const userId = req.params.userId;
-    const user = await User.findByPk(userId, {
-        include: [
-            {
-                model: Photo,
-                as: 'photos',
-                attributes: ['photoId', 'photo', 'answer1', 'answer2', 'answer3', 'createdAt']
-            },
-            {
-                model: UserRegisterInfo,
-                as: 'userRegisterInfo',
-            },
-            {
-                model: MiddleFormAnswers,
-                as: 'middleFormAnswers',
-            },
-            {
-                model: EndFormAnswers,
-                as: 'endFormAnswers',
-            }
-        ]
+    const users = await User.findOne({
+        where: {
+            userId,
+        }
     });
-    res.status(200).json(transformer(user));
+    const registerInfo = await UserRegisterInfo.findOne({
+        where: {
+            userId,
+        }
+    });
+    var resp = {
+        userCountry: users.country,
+        answer1: registerInfo.answer1,
+        answer2: registerInfo.answer2,
+        answer1openField: registerInfo.answer1Field,
+        answer3: registerInfo.answer3,
+        answer3openField: registerInfo.answer3Field,
+        alias: registerInfo.alias
+    }
+    console.log("Se envía el participante de id: ", userId);
+    res.status(200).json(resp);
 }
 
 module.exports = getUser;

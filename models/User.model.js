@@ -4,10 +4,11 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.UUID,
             field: 'Id',
             primaryKey: true,
+			defaultValue: Sequelize.UUIDV4,
+			allowNull: false,
         },
         country: {
             type: Sequelize.STRING,
-            field: 'Country',
         },
     },
         {

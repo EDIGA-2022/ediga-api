@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-const Sequelize = require("sequelize");
+const {Sequelize} = require("sequelize");
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
@@ -24,9 +24,6 @@ db.Photo = require("../models/Photo.model.js")(sequelize, Sequelize);
 // User
 db.User = require("../models/User.model.js")(sequelize, Sequelize);
 
-// UserRegisterInfo
-db.UserRegisterInfo = require("../models/UserRegisterInfo.model.js")(sequelize, Sequelize);
-
 //MiddleFormAnswers
 db.MiddleFormAnswers = require("../models/MiddleFormAnswers.model.js")(sequelize, Sequelize);
 
@@ -34,6 +31,13 @@ db.MiddleFormAnswers = require("../models/MiddleFormAnswers.model.js")(sequelize
 db.EndFormAnswers = require("../models/EndFormAnswers.model.js")(sequelize, Sequelize);
 
 
+// EdigaUser
+db.EdigaUser = require("../models/EdigaUser.model")(sequelize, Sequelize);
+
+// UserRegistryInfo
+db.UserRegisterInfo = require("../models/UserRegisterInfo.model.js")(sequelize, Sequelize);
+
+db.User.hasOne(db.UserRegisterInfo, { as: 'registerInfo', foreignKey: 'UserId' });
 db.User.hasMany(db.Photo, { as: 'photos', foreignKey: { name: 'userId', field: 'Id' } });
 db.Photo.belongsTo(db.User, { as: 'user', foreignKey: { name: 'userId', field: 'UserId' } });
 
@@ -45,8 +49,6 @@ db.MiddleFormAnswers.hasOne(db.User, { as: 'user', foreignKey: { name: 'userId',
 
 db.User.hasOne(db.EndFormAnswers, { as: 'endFormAnswers', foreignKey: { name: 'userId', field: 'Id' } });
 db.EndFormAnswers.hasOne(db.User, { as: 'user', foreignKey: { name: 'userId', field: 'UserId' } });
-
-
 
 // db.customers = require("../models/customer.model.js")(sequelize, Sequelize);
 // db.products = require("../models/product.model.js")(sequelize, Sequelize);
