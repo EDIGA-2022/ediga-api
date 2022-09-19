@@ -1,7 +1,7 @@
 {
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "nodemon app.js",
     "migrate": "npx sequelize-cli db:migrate",
     "create-migration": "npx sequelize-cli migration:generate --name"
   },
