@@ -18,9 +18,14 @@ const cookieParser = require('cookie-parser');
 
 // create server
 const app = express();
-
-app.use(express.json())
-
+const cors = require('cors');
+const corsOptions = {
+    origin: '*',
+    //origin: 'http://localhost:3000',
+    credentials: true, //access-control-allow-credentials:true
+    optionSuccessStatus: 200,
+}
+app.use(cors(corsOptions))
 // port
 const port = process.env.PORT || 3001;
 // adds body-parser
