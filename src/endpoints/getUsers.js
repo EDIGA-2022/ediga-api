@@ -1,7 +1,7 @@
 const db = require("../db.js");
 const UserRegisterInfo = db.UserRegisterInfo;
 const User = db.User;
-const { getCountry, getGenre } = require("../utils.js");
+const { getCountry, getGender } = require("../utils.js");
 
 function userRegisterInfoTransformer(users) {
     const results = []
@@ -9,9 +9,9 @@ function userRegisterInfoTransformer(users) {
         const u = {
             userId: user.userId,
             country: getCountry(user.country),
-            genre: user.userRegisterInfo.answer1 === 6
+            gender: user.userRegisterInfo.answer1 === 6
                 ? user.userRegisterInfo.answer1Field
-                : getGenre(user.userRegisterInfo.answer1),
+                : getGender(user.userRegisterInfo.answer1),
             yearsOld: user.userRegisterInfo.answer2,
             instagramProfile: user.userRegisterInfo.answer3Field,
             alias: user.userRegisterInfo.alias,
@@ -31,14 +31,9 @@ async function getUsers(req, res) {
                 required: true,
             }
         ]
-    })
-    .then(results => {
-        console.log(JSON.stringify(results));
-        res.status(200).json(userRegisterInfoTransformer(results));
-    })
-    .catch(err => {
-        console.log(err);
     });
+    console.log(JSON.stringify(usersInfo));
+    res.status(200).json(userRegisterInfoTransformer(usersInfo));
 }
 
 module.exports = getUsers;

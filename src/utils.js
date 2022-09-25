@@ -11,7 +11,7 @@ function getCountry(key) {
     }
 }
 
-function getGenre(key) {
+function getGender(key) {
     switch (key) {
         case 1:
             return "Mujer cis"
@@ -48,4 +48,4 @@ function getTextAnswer(key) {
 }
 
 
-module.exports = {getCountry, getGenre, getTextAnswer}
+module.exports = {getCountry, getGender, getTextAnswer}

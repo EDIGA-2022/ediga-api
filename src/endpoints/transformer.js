@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { getGenre, getTextAnswer } = require('../utils.js')
+const { getGender, getTextAnswer } = require('../utils.js')
 
 function transformer(user) {
     const u = {
@@ -14,7 +14,7 @@ function transformer(user) {
         }),
         genre: user.userRegisterInfo.answer1 === 6
             ? user.userRegisterInfo.answer1Field
-            : getGenre(user.userRegisterInfo.answer1),
+            : getGender(user.userRegisterInfo.answer1),
         yearsOld: user.userRegisterInfo.answer2,
         investigated: user.userRegisterInfo.answer3 === 'No' ? false : true,
         instagramProfile: user.userRegisterInfo.answer3Field,
