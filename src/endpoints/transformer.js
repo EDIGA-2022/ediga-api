@@ -27,12 +27,12 @@ function transformer(user) {
             answer2: user.endFormAnswers ? getTextAnswer(user.endFormAnswers.answer2) : null,
         },
     };
-    fs.writeFile('./text.txt', u.photos[0].photo, err => {
-        if (err) {
-            console.error(err);
-        }
-        // file written successfully
-    });
+    // fs.writeFile('./text.txt', u.photos[0].photo, err => {
+    //     if (err) {
+    //         console.error(err);
+    //     }
+    //     // file written successfully
+    // });
     return u;
 }
 
