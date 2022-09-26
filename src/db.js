@@ -37,11 +37,10 @@ db.EdigaUser = require("../models/EdigaUser.model")(sequelize, Sequelize);
 // UserRegistryInfo
 db.UserRegisterInfo = require("../models/UserRegisterInfo.model.js")(sequelize, Sequelize);
 
-db.User.hasOne(db.UserRegisterInfo, { as: 'registerInfo', foreignKey: 'UserId' });
 db.User.hasMany(db.Photo, { as: 'photos', foreignKey: { name: 'userId', field: 'Id' } });
 db.Photo.belongsTo(db.User, { as: 'user', foreignKey: { name: 'userId', field: 'UserId' } });
 
-db.User.hasOne(db.UserRegisterInfo, { as: 'userRegisterInfo', foreignKey: { name: 'userId', field: 'Id' } });
+db.User.hasOne(db.UserRegisterInfo, { as: 'userRegisterInfo', foreignKey: { name: 'userId', field: 'UserId' } });
 db.UserRegisterInfo.hasOne(db.User, { as: 'user', foreignKey: { name: 'userId', field: 'UserId' } });
 
 db.User.hasOne(db.MiddleFormAnswers, { as: 'middleFormAnswers', foreignKey: { name: 'userId', field: 'Id' } });
