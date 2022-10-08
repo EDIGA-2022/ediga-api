@@ -11,6 +11,9 @@ async function register(req, res) {
   if (!email) {
     return res.status(400).json({message: "Email is required"});
   }
+  if (!name) {
+    return res.status(400).json({message: "Name is required"});
+  }
   if (password.length < 6) {
     return res.status(400).json({ message: "Password less than 6 characters" })
   }
