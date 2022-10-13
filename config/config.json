@@ -2,15 +2,15 @@
   "local": {
     "username": "root",
     "password": "root",
-    "database": "ediga",
+    "database": "Ediga",
     "host": "127.0.0.1",
     "dialect": "mariadb"
   },
   "development": {
     "username": "root",
-    "password": "TesisEdiga.2022",
-    "database": "dev-ediga",
-    "host": "dev-ediga.c3qhqbozz3yw.us-east-2.rds.amazonaws.com",
+    "password": "root",
+    "database": "Ediga",
+    "host": "127.0.0.1",
     "dialect": "mariadb"
   },
   "test": {

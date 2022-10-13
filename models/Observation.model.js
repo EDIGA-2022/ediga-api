@@ -26,6 +26,16 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.DATE,
             field: 'deleted_at',
         },
+        title: Sequelize.TEXT('long'),
+        type: Sequelize.CHAR,
+        likes: Sequelize.INTEGER,
+        comments: Sequelize.INTEGER,
+        music: Sequelize.TEXT('long'),
+        hasMusic: Sequelize.BOOLEAN,
+        publicationDate: {
+            type: Sequelize.DATE,
+            field: 'publication_date',
+        },
     },
         {
             freezeTableName: true,

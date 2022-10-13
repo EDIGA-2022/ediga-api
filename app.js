@@ -9,6 +9,7 @@ const editUser = require('./src/endpoints/editUser');
 const login = require('./src/endpoints/auth/login');
 const register = require('./src/endpoints/auth/register')
 const passwordReset = require('./src/endpoints/auth/passwordReset');
+const createObservation = require('./src/endpoints/createObservation');
 
 
 // import express
@@ -60,6 +61,9 @@ app.get('/api/user/:userId', getUser);
 
 // get user profile
 app.get('/api/user/profile/:userId', getUserProfile);
+
+// create new observation
+app.post('/api/createObservation', createObservation);
 
 app.post('/api/login', login)
 app.post('/api/register', register)
