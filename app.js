@@ -1,5 +1,6 @@
 'use strict';
 const getUserPhotos = require('./src/endpoints/getUserPhotos');
+const getUserObservations = require('./src/endpoints/getUserObservations');
 const getUsers = require('./src/endpoints/getUsers');
 const getUser = require('./src/endpoints/getUser');
 const createUser = require('./src/endpoints/createUser');
@@ -33,7 +34,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // message in JSON format
 app.use(bodyParser.json());
 
-app.use(cookieParser()); 
+app.use(cookieParser());
 
 
 
@@ -44,6 +45,9 @@ app.get('/api/users', getUsers);
 
 // get all photos of a user with userId
 app.get('/api/photos/:userId', getUserPhotos);
+
+// get all observations of a user with userId
+app.get('/api/observations/:userId', getUserObservations);
 
 // create new participant
 app.post('/api/createUser', createUser);
