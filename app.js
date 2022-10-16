@@ -16,12 +16,12 @@ const app = express();
 const cors = require('cors');
 const corsOptions = {
   // Autoriza a todos los dominios a pegarle al back
-    origin: '*',
-    // origin: 'http://localhost:3000',
-    credentials: true, 
-    // Permite que se usen esos headers en las requests de otros dominios
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    optionSuccessStatus: 200,
+  origin: '*',
+  // origin: 'http://localhost:3000',
+  credentials: true,
+  // Permite que se usen esos headers en las requests de otros dominios
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionSuccessStatus: 200,
 }
 app.use(cors(corsOptions))
 // port
@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // message in JSON format
 app.use(bodyParser.json());
 
-app.use(cookieParser()); 
+app.use(cookieParser());
 
 // routes
 
@@ -46,5 +46,5 @@ app.post('/api/register', register)
 app.post('/api/password-reset', passwordReset)
 
 app.listen(port, () => {
-    console.log(`API running on http://localhost:${port}`);
+  console.log(`API running on http://localhost:${port}`);
 });
