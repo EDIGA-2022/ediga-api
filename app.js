@@ -1,15 +1,21 @@
 'use strict';
-const getUserPhotos = require('./src/endpoints/getUserPhotos');
-const getUserObservations = require('./src/endpoints/getUserObservations');
-const getUsers = require('./src/endpoints/getUsers');
-const getUser = require('./src/endpoints/getUser');
-const createUser = require('./src/endpoints/createUser');
-const getUserProfile = require('./src/endpoints/getUserProfile');
-const editUser = require('./src/endpoints/editUser');
+
 const login = require('./src/endpoints/auth/login');
 const register = require('./src/endpoints/auth/register')
 const passwordReset = require('./src/endpoints/auth/passwordReset');
+
+//Users
+const getUsers = require('./src/endpoints/getUsers');
+const getUser = require('./src/endpoints/getUser');
+const getUserPhotos = require('./src/endpoints/getUserPhotos');
+const createUser = require('./src/endpoints/createUser');
+const getUserProfile = require('./src/endpoints/getUserProfile');
+const editUser = require('./src/endpoints/editUser');
+
+//Observation
 const createObservation = require('./src/endpoints/createObservation');
+const getUserObservations = require('./src/endpoints/getUserObservations');
+const getUserObservation = require('./src/endpoints/getUserObservation');
 
 
 // import express
@@ -47,9 +53,6 @@ app.get('/api/users', getUsers);
 // get all photos of a user with userId
 app.get('/api/photos/:userId', getUserPhotos);
 
-// get all observations of a user with userId
-app.get('/api/observations/:userId', getUserObservations);
-
 // create new participant
 app.post('/api/createUser', createUser);
 
@@ -63,7 +66,13 @@ app.get('/api/user/:userId', getUser);
 app.get('/api/user/profile/:userId', getUserProfile);
 
 // create new observation
-app.post('/api/createObservation', createObservation);
+app.post('/api/observations', createObservation);
+
+// get all observations of a user with userId
+app.get('/api/observations/user/:userId', getUserObservations);
+
+// get a particular observation
+app.get('/api/observations/:observationId', getUserObservation);
 
 app.post('/api/login', login)
 app.post('/api/register', register)
