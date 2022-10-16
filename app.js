@@ -8,6 +8,7 @@ const editUser = require('./src/endpoints/editUser');
 const login = require('./src/endpoints/auth/login');
 const register = require('./src/endpoints/auth/register')
 const passwordReset = require('./src/endpoints/auth/passwordReset');
+const exportPhotos = require('./src/endpoints/exportPhotos');
 
 
 // import express
@@ -60,8 +61,9 @@ app.get('/api/user/profile/:userId', getUserProfile);
 app.post('/api/login', login)
 app.post('/api/register', register)
 app.post('/api/password-reset', passwordReset)
+app.get('/api/export-photos', exportPhotos)
 
 
 app.listen(port, () => {
-    console.log(`API running on http://localhost:${port}`);
+  console.log(`API running on http://localhost:${port}`);
 });
