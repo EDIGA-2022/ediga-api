@@ -4,7 +4,6 @@ const getUsers = require('./src/endpoints/getUsers');
 const login = require('./src/endpoints/auth/login');
 const register = require('./src/endpoints/auth/register')
 const passwordReset = require('./src/endpoints/auth/passwordReset');
-const logout = require('./src/endpoints/auth/logout');
 
 // import express
 const express = require('express');
