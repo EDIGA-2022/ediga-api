@@ -4,7 +4,6 @@ const getUsers = require('./src/endpoints/getUsers');
 const login = require('./src/endpoints/auth/login');
 const register = require('./src/endpoints/auth/register')
 const passwordReset = require('./src/endpoints/auth/passwordReset');
-const logout = require('./src/endpoints/auth/logout');
 const exportImages = require('./src/endpoints/exportImages');
 
 // import express
@@ -41,7 +40,6 @@ app.get('/api/users', getUsers);
 app.get('/api/photos/:userId', getUserPhotos);
 
 app.post('/api/login', login)
-app.post('/api/logout', logout)
 app.post('/api/register', register)
 app.post('/api/password-reset', passwordReset)
 app.get('/api/export-images', exportImages)
