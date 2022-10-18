@@ -38,6 +38,10 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.DATE,
             field: 'publication_date',
         },
+        edigaUserPhoto: {
+            type: Sequelize.TEXT('long'),
+            field: 'ediga_user_photo'
+        },
     },
         {
             freezeTableName: true,

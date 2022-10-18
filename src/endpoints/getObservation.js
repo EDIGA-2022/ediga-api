@@ -17,7 +17,8 @@ async function getObsevation(req, res) {
         music: obs.music,
         date: obs.publicationDate,
         hasMusic: obs.hasMusic,
-        observation: obs.text
+        observation: obs.text,
+        edigaUserPhoto: obs.edigaUserPhoto
     }
     res.status(200).json(resp);
 }

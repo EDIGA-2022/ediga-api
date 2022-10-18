@@ -38,9 +38,9 @@ app.use(cors(corsOptions))
 // port
 const port = process.env.PORT || 3001;
 // adds body-parser
-app.use(bodyParser.urlencoded({ extended: false }));
+//app.use(bodyParser.urlencoded({ extended: false }));
 // message in JSON format
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: "50mb" }));
 
 app.use(cookieParser());
 

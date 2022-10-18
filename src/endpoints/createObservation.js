@@ -13,6 +13,7 @@ async function createObservation(req, res) {
     var hasMusic = req.body.hasMusic;
     var text = req.body.observation; //text
     var photoId = req.body.photoId;
+    var edigaUserPhoto = req.body.edigaUserPhoto;
     if (userId == null){
         return res.status(400).json({ message: "El usuario no puede ser null" })
     }
@@ -26,9 +27,10 @@ async function createObservation(req, res) {
         publicationDate,
         hasMusic,
         text,
-        photoId
+        photoId,
+        edigaUserPhoto,
     });
-    console.log("New user created. Id: ", newObservation.userId);
+    console.log("New observation created. Id: ", newObservation.userId);
     res.status(200).json({message: "Success"});
 }
 

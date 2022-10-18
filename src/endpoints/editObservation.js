@@ -12,6 +12,7 @@ async function editObservation(req, res) {
     var publicationDate = req.body.date;
     var hasMusic = req.body.hasMusic;
     var text = req.body.observation;
+    var edigaUserPhoto = req.body.edigaUserPhoto;
    const updatedRows = await Observation.update(
     {
         observationId: observationId,
@@ -23,7 +24,8 @@ async function editObservation(req, res) {
         music: music,
         publicationDate: publicationDate,
         hasMusic: hasMusic,
-        text: text
+        text: text,
+        edigaUserPhoto: edigaUserPhoto
     },
     {
       where: { observationId: observationId },
