@@ -9,7 +9,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.UUID,
             field: 'UserId'
         },
-        completedAt: {
+        createdAt: {
             type: Sequelize.INTEGER,
             field: 'Date_of_answer',
         },
@@ -32,7 +32,7 @@ module.exports = (sequelize, Sequelize) => {
     },
         {
             freezeTableName: true,
-        });
-
+        }
+    );
     return Photo;
 };
