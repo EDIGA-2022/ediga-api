@@ -1,14 +1,13 @@
 const db = require("../../db.js");
 const jwt = require('jsonwebtoken');
-const res = require("express/lib/response.js");
 
 const EdigaUser = db.EdigaUser;
-
 
 // Function that can be used from anywhere in the code to check if user is logged in 
 async function isLoggedIn(req) {
 	const jwtSecretKey = process.env.JWT_SECRET_KEY;
-	const token = req.cookies.jwt;
+  const token = req.headers.authorization.replace("Bearer ","");
+
 	if (token) {
 		data = verifyToken(token, jwtSecretKey);
 		if (data) {

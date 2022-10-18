@@ -1,6 +1,7 @@
 const db = require("../db.js");
 const UserRegisterInfo = db.UserRegisterInfo;
 const User = db.User;
+const isLoggedIn = require("../endpoints/auth/authenticate").isLoggedIn;
 const { getCountry, getGender } = require("../utils.js");
 
 function userRegisterInfoTransformer(users) {
@@ -23,6 +24,13 @@ function userRegisterInfoTransformer(users) {
 
 
 async function getUsers(req, res) {
+  authorized = await isLoggedIn(req);
+  if (!authorized) {
+    return res.status(401).json({
+      error: "Unauthorized",
+      message: "Debes iniciar sesión"
+    });
+  }
     const usersInfo = await User.findAll({
         include: [
             {
