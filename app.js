@@ -15,7 +15,8 @@ const editUser = require('./src/endpoints/editUser');
 //Observation
 const createObservation = require('./src/endpoints/createObservation');
 const getUserObservations = require('./src/endpoints/getUserObservations');
-const getUserObservation = require('./src/endpoints/getUserObservation');
+const getObservation = require('./src/endpoints/getObservation');
+const editObservation = require('./src/endpoints/editObservation');
 
 
 // import express
@@ -65,14 +66,17 @@ app.get('/api/user/:userId', getUser);
 // get user profile
 app.get('/api/user/profile/:userId', getUserProfile);
 
+// get observation
+app.get('/api/observation/:observationId', getObservation);
+
+// edit observation
+app.put('/api/observation/', editObservation);
+
 // create new observation
 app.post('/api/observations', createObservation);
 
 // get all observations of a user with userId
 app.get('/api/observations/user/:userId', getUserObservations);
-
-// get a particular observation
-app.get('/api/observations/:observationId', getUserObservation);
 
 app.post('/api/login', login)
 app.post('/api/register', register)

@@ -8,8 +8,18 @@ async function getUserObservations(req, res) {
             userId,
         }
     });
-    console.log("userObservation-->", JSON.stringify(userObservation))
-    res.status(200).json(userObservation);
+    const observations = [];
+    userObservation.forEach(element => {
+        observations.push({
+            observationId: element.observationId,
+            title: element.title,
+            photoId: element.photoId,
+            text: element.text,
+            createdAt: element.createdAt,
+            updatedAt: element.updatedAt,
+        })
+    });
+    res.status(200).json(observations);
 }
 
 module.exports = getUserObservations;

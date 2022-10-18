@@ -3,7 +3,9 @@ module.exports = (sequelize, Sequelize) => {
         observationId: {
             type: Sequelize.UUID,
             primaryKey: true,
-            field: 'observation_id'
+            field: 'observation_id',
+            allowNull: false,
+            defaultValue: Sequelize.UUIDV4,
         },
         userId: {
             type: Sequelize.UUID,
