@@ -1,40 +1,52 @@
 const { sequelize } = require("../db.js");
 const db = require("../db.js");
+const { getCountry, getGender } = require("../utils.js");
 const User = db.User;
-const isLoggedIn = require("../endpoints/auth/authenticate").isLoggedIn;
+
 const UserRegisterInfo = db.UserRegisterInfo;
 
 
 async function getMetrics(req, res) {
-  // authorized = await isLoggedIn(req);
-  // if (!authorized) {
-  //   return res.status(401).json({
-  //     error: "Unauthorized",
-  //     message: "Debes iniciar sesión"
-  //   });
-  // }
   const usersCountries = await User.findAll({
     attributes: ["country", [db.sequelize.fn("COUNT", db.sequelize.col("country")), "amount"]],
     group: ['country'],
   });
   var totalUsers = 0;
   usersCountries.forEach(item => {
+    item.country = getCountry(item.country);
     totalUsers += item.dataValues.amount;
   });
 
+  const userGendersQuery = await sequelize.query(`select Answer_1 as answer1, Count(*) as amount,
+    (case when Answer_1 = 6 then Answer_1_open_field end) as Answer_1_open_field
+    from UserRegisterInfo t
+    group by Answer_1,
+    (case when Answer_1 = 6 and Answer_1_open_field is not null
+    then Answer_1_open_field end);`
+  );
 
-  const userGenders = await sequelize.query(`select Answer_1, Count(*),
-  (case when Answer_1 = 6 then Answer_1_open_field end) as Answer_1_open_field
-  from UserRegisterInfo t
-  group by Answer_1,
-  (case when Answer_1 = 6 and Answer_1_open_field is not null
-  then Answer_1_open_field end);`);
+  userGenders = [];
+  // En generos devuelvo todos las opciones con sus respectivas cantidades y 
+  // el codigo del genero para poder filtrar las de genero "6" (campo libre) desde el front. 
+  // Para los generos que estan predefinidos, el campo "openField lo seteo vacio".
+  genders = userGendersQuery[0].forEach(item => {
+    currentItem = {
+      gender: item.answer1 === 6 ? item.Answer_1_open_field : getGender(item.answer1),
+      genderCode: item.answer1,
+      amount: item.amount,
+      openField: item.answer1 === 6 ? item.Answer_1_open_field : ''
+    }
+    userGenders.push(currentItem);
+  });
 
+  // Cantidad de respuestas que tuvo cada pregunta
+  
 
-  console.log(userGenders);
   res.status(200).json({
     countries: usersCountries,
-    totalUsers: totalUsers
+    totalUsers: totalUsers,
+    userGenders: userGenders
+
   });
 }
 
