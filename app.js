@@ -1,13 +1,23 @@
 'use strict';
-const getUserPhotos = require('./src/endpoints/getUserPhotos');
+
+const login = require('./src/endpoints/auth/login');
+const register = require('./src/endpoints/auth/register');
+const passwordReset = require('./src/endpoints/auth/passwordReset');
+
+//Users
 const getUsers = require('./src/endpoints/getUsers');
 const getUser = require('./src/endpoints/getUser');
+const getUserPhotos = require('./src/endpoints/getUserPhotos');
 const createUser = require('./src/endpoints/createUser');
 const getUserProfile = require('./src/endpoints/getUserProfile');
 const editUser = require('./src/endpoints/editUser');
-const login = require('./src/endpoints/auth/login');
-const register = require('./src/endpoints/auth/register')
-const passwordReset = require('./src/endpoints/auth/passwordReset');
+
+//Observation
+const createObservation = require('./src/endpoints/createObservation');
+const getUserObservations = require('./src/endpoints/getUserObservations');
+const getObservation = require('./src/endpoints/getObservation');
+const editObservation = require('./src/endpoints/editObservation');
+
 // import express
 const express = require('express');
 // import body-parser
@@ -30,9 +40,9 @@ app.use(cors(corsOptions))
 // port
 const port = process.env.PORT || 3001;
 // adds body-parser
-app.use(bodyParser.urlencoded({ extended: false }));
+//app.use(bodyParser.urlencoded({ extended: false }));
 // message in JSON format
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: "50mb" }));
 
 app.use(cookieParser());
 
@@ -53,6 +63,19 @@ app.get('/api/user/:userId', getUser);
 
 // get user profile
 app.get('/api/user/profile/:userId', getUserProfile);
+
+// get observation
+app.get('/api/observation/:observationId', getObservation);
+
+// edit observation
+app.put('/api/observation/', editObservation);
+
+// create new observation
+app.post('/api/observations', createObservation);
+
+// get all observations of a user with userId
+app.get('/api/observations/user/:userId', getUserObservations);
+
 app.post('/api/login', login)
 app.post('/api/register', register)
 app.post('/api/password-reset', passwordReset)
