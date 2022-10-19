@@ -1,5 +1,6 @@
 'use strict';
 
+// Auth
 const login = require('./src/endpoints/auth/login');
 const register = require('./src/endpoints/auth/register');
 const passwordReset = require('./src/endpoints/auth/passwordReset');
@@ -17,6 +18,9 @@ const createObservation = require('./src/endpoints/createObservation');
 const getUserObservations = require('./src/endpoints/getUserObservations');
 const getObservation = require('./src/endpoints/getObservation');
 const editObservation = require('./src/endpoints/editObservation');
+
+//Metrics
+const getMetrics = require('./src/endpoints/getMetrics');
 
 // import express
 const express = require('express');
@@ -76,9 +80,13 @@ app.post('/api/observations', createObservation);
 // get all observations of a user with userId
 app.get('/api/observations/user/:userId', getUserObservations);
 
-app.post('/api/login', login)
-app.post('/api/register', register)
-app.post('/api/password-reset', passwordReset)
+app.post('/api/login', login);
+app.post('/api/register', register);
+app.post('/api/password-reset', passwordReset);
+
+// get all metrics
+app.get('/api/metrics', getMetrics);
+
 app.listen(port, () => {
     console.log(`API running on http://localhost:${port}`);
 });
