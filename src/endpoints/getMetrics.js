@@ -21,20 +21,17 @@ async function getMetrics(req, res) {
   usersCountries.forEach(item => {
     totalUsers += item.dataValues.amount;
   });
-  //Get different genres
-  // const usersGenres = await UserRegisterInfo.findAll({
-  //     select Answer_1, Count(*),
-  //        (case when Answer_1=6 then Answer_1_open_field end) as Answer_1_open_field
-  // from UserRegisterInfo t
-  // group by Answer_1,
-  //          (case when Answer_1=6 and Answer_1_open_field is not null
-  //                then Answer_1_open_field end);
-
-  // raw query for simplicity 
-  // const userGenres = await sequelize.query("SELECT  FROM `users`", { type: QueryTypes.SELECT });
 
 
-  console.log(usersGenres);
+  const userGenders = await sequelize.query(`select Answer_1, Count(*),
+  (case when Answer_1 = 6 then Answer_1_open_field end) as Answer_1_open_field
+  from UserRegisterInfo t
+  group by Answer_1,
+  (case when Answer_1 = 6 and Answer_1_open_field is not null
+  then Answer_1_open_field end);`);
+
+
+  console.log(userGenders);
   res.status(200).json({
     countries: usersCountries,
     totalUsers: totalUsers
