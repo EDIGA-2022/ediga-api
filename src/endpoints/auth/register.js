@@ -1,15 +1,26 @@
 const bcrypt = require("bcryptjs");
 const db = require("../../db.js");
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const isLoggedIn = require("./authenticate").isLoggedIn;
+
 
 const EdigaUser = db.EdigaUser;
 
-
 async function register(req, res) {
+  authorized = await isLoggedIn(req);
+  if (!authorized) {
+    return res.status(401).json({
+      error: "Unauthorized",
+      message: "Es necesario iniciar sesión para crear usuarios"
+    });
+  }
   const { email, password, name } = req.body
   // Basic validation
   if (!email) {
     return res.status(400).json({message: "Email is required"});
+  }
+  if (!name) {
+    return res.status(400).json({message: "Name is required"});
   }
   if (password.length < 6) {
     return res.status(400).json({ message: "Password less than 6 characters" })
