@@ -40,6 +40,9 @@ db.UserRegisterInfo = require("../models/UserRegisterInfo.model.js")(sequelize, 
 // Observation
 db.Observation = require("../models/Observation.model.js")(sequelize, Sequelize);
 
+//Diary Entry
+db.DiaryEntry = require("../models/DiaryEntry.model.js")(sequelize, Sequelize);
+
 db.User.hasMany(db.Photo, { as: 'photos', foreignKey: { name: 'userId', field: 'Id' } });
 db.Photo.belongsTo(db.User, { as: 'user', foreignKey: { name: 'userId', field: 'UserId' } });
 
@@ -59,6 +62,10 @@ db.Observation.belongsTo(db.User, { as: 'user', foreignKey: { name: 'userId', fi
 db.Photo.hasMany(db.Observation, { as: 'observations', foreignKey: { name: 'photoId', field: 'Id' } });
 // belongs to? has one?
 db.Observation.belongsTo(db.Photo, { as: 'photo', foreignKey: { name: 'photoId', field: 'photoId' } });
+
+db.User.hasMany(db.DiaryEntry, { as: 'entries', foreignKey: { name: 'userId', field: 'Id' } });
+// belongs to? has one?
+db.DiaryEntry.belongsTo(db.User, { as: 'user', foreignKey: { name: 'userId', field: 'UserId' } });
 
 
 // db.customers = require("../models/customer.model.js")(sequelize, Sequelize);
