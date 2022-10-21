@@ -39,13 +39,22 @@ async function getMetrics(req, res) {
     userGenders.push(currentItem);
   });
 
-  // Cantidad de respuestas que tuvo cada pregunta
+  //Edades
+  userAges = await UserRegisterInfo.findAll({
+    // Rename answer_2 attribute
+    attributes: [["Answer_2", "age"], [db.sequelize.fn("COUNT", db.sequelize.col("Answer_2")), "amount"]],
+    group: ['Answer_2'],
+  });
+
+  //Promedio de uso diario
+  dailyUsageAverage = 
   
 
   res.status(200).json({
     countries: usersCountries,
     totalUsers: totalUsers,
-    userGenders: userGenders
+    userGenders: userGenders,
+    userAges: userAges
 
   });
 }
