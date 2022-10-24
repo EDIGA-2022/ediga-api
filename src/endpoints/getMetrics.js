@@ -60,12 +60,6 @@ async function getMetrics(req, res) {
 
   middleFormAnswers = await getMiddleFormAnswers();
 
-
-  // select COUNT(*) from MiddleFormAnswers
-  // GROUP BY Answer_1;
-  //   const middleFormAnswers = 
-
-
   res.status(200).json({
     countries: usersCountries,
     totalUsers: totalUsers,
