@@ -25,12 +25,12 @@ async function getObsevation(req, res) {
         hasMusic: obs.hasMusic,
         observation: obs.text,
         edigaUserPhoto: obs.edigaUserPhoto,
-        photoId: obs.photo.photoId,
+        photoId: obs.photoId,
         userId: obs.userId,
-        photo: JSON.stringify((obs.photo.photo).replace(/["\n"]/g, '')),
-        answer1: getTextAnswer(obs.photo.answer1),
-        answer2: getTextAnswer(obs.photo.answer2),
-        answer3: getTextAnswer(obs.photo.answer3),
+        photo: obs.photo && JSON.stringify((obs.photo.photo).replace(/["\n"]/g, '')),
+        answer1: obs.photo && getTextAnswer(obs.photo.answer1),
+        answer2: obs.photo && getTextAnswer(obs.photo.answer2),
+        answer3: obs.photo && getTextAnswer(obs.photo.answer3),
     }
     res.status(200).json(resp);
 }
