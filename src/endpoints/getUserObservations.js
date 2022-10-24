@@ -1,14 +1,23 @@
 const db = require("../db.js");
 const Observation = db.Observation;
+const Photo = db.Photo;
 
 async function getUserObservations(req, res) {
     const userId = req.params.userId;
     const userObservation = await Observation.findAll({
         where: {
             userId,
-        }
+        },
+        include: [
+            {
+                model: Photo,
+                as: 'photo',
+                attributes: ['photoId', 'photo', 'answer1', 'answer2', 'answer3', 'createdAt']
+            },
+        ]
     });
     const observations = [];
+    // photoObservation is true when the obs is a obs of a photo
     userObservation.forEach(element => {
         observations.push({
             observationId: element.observationId,
@@ -17,6 +26,7 @@ async function getUserObservations(req, res) {
             text: element.text,
             createdAt: element.createdAt,
             updatedAt: element.updatedAt,
+            photoObservation: !!element.photo
         })
     });
     res.status(200).json(observations);
