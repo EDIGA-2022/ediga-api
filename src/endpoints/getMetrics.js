@@ -9,6 +9,8 @@ const UserRegisterInfo = db.UserRegisterInfo;
 const moment = require('moment');
 
 async function getMetrics(req, res) {
+
+  // Devuelve todos los países registrados y la cantidad de usuarios que hay en cada uno
   const usersCountries = await User.findAll({
     attributes: ["country", [db.sequelize.fn("COUNT", db.sequelize.col("country")), "amount"]],
     group: ['country'],
@@ -19,6 +21,64 @@ async function getMetrics(req, res) {
     totalUsers += item.dataValues.amount;
   });
 
+  // Devuelve géneros y cantidad de cada uno
+  userGenders = await getGenders();
+
+  // Devuelve edades y cantidad de cada una
+  userAges = await getAges();
+
+  // Cálculo del promedio de uso diario (en segundo plano?)
+  const dailyUsageQuery = await DailyUsage.findAll({
+    attributes: ["usageTime"],
+  });
+
+  var durations = [];
+  dailyUsageQuery.forEach(item => {
+    durations.push(item.usageTime.toString());
+  });
+  const ms = durations.map(d => moment.duration(d).asSeconds() * 1000);
+  const sum = ms.reduce((prev, cur) => prev + cur, 0);
+  const avgUsageTime = Math.trunc(sum / ms.length);
+
+  const durationAvg = moment.duration(avgUsageTime);
+
+  // Cantidad de usuarios trackeados con daily usage (usuarios que permiten la app en segundo plano)
+  const dailyUsageByUser = await DailyUsage.findAll({
+    attributes: [[db.sequelize.fn("COUNT", db.sequelize.col("UserId")), "amount"]],
+    group: ["UserId"],
+  });
+
+  // select * from UserRegisterInfo where Answer_3='Si';
+  const usersWithInstagram = await UserRegisterInfo.findAll({
+    where: {
+      answer3: 'Si'
+    }
+  });
+
+  // Porcentaje de usuarios que permite el uso de su perfil de instagram
+  const instagramPercentage = Math.trunc(usersWithInstagram.length * 100 / totalUsers);
+
+  middleFormAnswers = await getMiddleFormAnswers();
+
+
+  // select COUNT(*) from MiddleFormAnswers
+  // GROUP BY Answer_1;
+  //   const middleFormAnswers = 
+
+
+  res.status(200).json({
+    countries: usersCountries,
+    totalUsers: totalUsers,
+    userGenders: userGenders,
+    userAges: userAges,
+    averageHours: durationAvg.hours(),
+    trackedUsers: dailyUsageByUser.length,
+    instagramPercentage: instagramPercentage,
+    middleFormAnswers: middleFormAnswers
+  });
+}
+
+async function getGenders() {
   const userGendersQuery = await sequelize.query(`select Answer_1 as answer1, Count(*) as amount,
     (case when Answer_1 = 6 then Answer_1_open_field end) as Answer_1_open_field
     from UserRegisterInfo t
@@ -40,48 +100,22 @@ async function getMetrics(req, res) {
     }
     userGenders.push(currentItem);
   });
+  return userGenders;
+}
 
-  //Edades
-  userAges = await UserRegisterInfo.findAll({
+async function getAges() {
+  ages = await UserRegisterInfo.findAll({
     // Rename answer_2 attribute
     attributes: [["Answer_2", "age"], [db.sequelize.fn("COUNT", db.sequelize.col("Answer_2")), "amount"]],
     group: ['Answer_2'],
   });
+  return ages;
+}
 
-  //Promedio de uso diario
-  const dailyUsageQuery = await DailyUsage.findAll({
-    attributes: ["usageTime"],
-  });
+// Devuelve las preguntas y respuestas para todo el formulario con sus cantidades
 
-  var durations = [];
-  dailyUsageQuery.forEach(item => {
-    durations.push(item.usageTime.toString());
-  });
-
-  const ms = durations.map(d => moment.duration(d).asSeconds() * 1000);
-  const sum = ms.reduce((prev, cur) => prev + cur, 0);
-  // console.log(sum);
-
-  const avgUsageTime = Math.trunc(sum / ms.length);
-
-  const durationAvg = moment.duration(avgUsageTime);
-  // console.log(durationAvg);
-
-  // Cantidad de usuarios trackeados con daily usage
-  const dailyUsageByUser = await DailyUsage.findAll({
-    attributes: [[db.sequelize.fn("COUNT", db.sequelize.col("UserId")), "amount"]],
-    group: ["UserId"],
-  });
-
-  // select * from UserRegisterInfo where Answer_3='Si';
-  const usersWithInstagram = await UserRegisterInfo.findAll({
-    where: {
-      answer3: 'Si'
-    }
-  });
-  // Porcentaje de usuarios que permite el uso de su perfil de instagram
-  const instagramPercentage = Math.trunc(usersWithInstagram.length * 100 / totalUsers);
-  // middle form answers
+async function getMiddleFormAnswers() {
+  // Middle form answers
   middleFormAnswer1 = await MiddleFormAnswer.findAll({
     attributes: [["Answer_1", "answer"], [db.sequelize.fn("COUNT", db.sequelize.col("Answer_1")), "amount"]],
     group: ['Answer_1'],
@@ -96,7 +130,7 @@ async function getMetrics(req, res) {
   answersFirstQuestion.forEach(item => {
     item.answerText = getTextAnswer(item.answer);
   });
-  
+
   var middleFormAnswers = [];
   var middleFormAnswer1Object = {
     question: 'Lo que comparti estos días define lo que soy',
@@ -124,24 +158,9 @@ async function getMetrics(req, res) {
     answers: answersSecondQuestion
   }
   middleFormAnswers.push(middleFormAnswer2Object);
-
-
-  // select COUNT(*) from MiddleFormAnswers
-  // GROUP BY Answer_1;
-  //   const middleFormAnswers = 
-
-  console.log(answersFirstQuestion);
-
-  res.status(200).json({
-    countries: usersCountries,
-    totalUsers: totalUsers,
-    userGenders: userGenders,
-    userAges: userAges,
-    averageHours: durationAvg.hours(),
-    trackedUsers: dailyUsageByUser.length,
-    instagramPercentage: instagramPercentage,
-    middleFormAnswers: middleFormAnswers
-  });
+  return middleFormAnswers;
 }
+
+
 
 module.exports = getMetrics;
