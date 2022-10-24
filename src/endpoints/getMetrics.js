@@ -1,10 +1,12 @@
-const { sequelize } = require("../db.js");
+const { sequelize, MiddleFormAnswers } = require("../db.js");
 const db = require("../db.js");
-const { getCountry, getGender } = require("../utils.js");
+const { getCountry, getGender, getTextAnswer } = require("../utils.js");
 const User = db.User;
+const DailyUsage = db.DailyUsage;
+const MiddleFormAnswer = db.MiddleFormAnswers;
 
 const UserRegisterInfo = db.UserRegisterInfo;
-
+const moment = require('moment');
 
 async function getMetrics(req, res) {
   const usersCountries = await User.findAll({
@@ -47,15 +49,98 @@ async function getMetrics(req, res) {
   });
 
   //Promedio de uso diario
-  dailyUsageAverage = 
+  const dailyUsageQuery = await DailyUsage.findAll({
+    attributes: ["usageTime"],
+  });
+
+  var durations = [];
+  dailyUsageQuery.forEach(item => {
+    durations.push(item.usageTime.toString());
+  });
+
+  const ms = durations.map(d => moment.duration(d).asSeconds() * 1000);
+  const sum = ms.reduce((prev, cur) => prev + cur, 0);
+  // console.log(sum);
+
+  const avgUsageTime = Math.trunc(sum / ms.length);
+
+  const durationAvg = moment.duration(avgUsageTime);
+  // console.log(durationAvg);
+
+  // Cantidad de usuarios trackeados con daily usage
+  const dailyUsageByUser = await DailyUsage.findAll({
+    attributes: [[db.sequelize.fn("COUNT", db.sequelize.col("UserId")), "amount"]],
+    group: ["UserId"],
+  });
+
+  // select * from UserRegisterInfo where Answer_3='Si';
+  const usersWithInstagram = await UserRegisterInfo.findAll({
+    where: {
+      answer3: 'Si'
+    }
+  });
+  // Porcentaje de usuarios que permite el uso de su perfil de instagram
+  const instagramPercentage = Math.trunc(usersWithInstagram.length * 100 / totalUsers);
+  // middle form answers
+  middleFormAnswer1 = await MiddleFormAnswer.findAll({
+    attributes: [["Answer_1", "answer"], [db.sequelize.fn("COUNT", db.sequelize.col("Answer_1")), "amount"]],
+    group: ['Answer_1'],
+  });
+
+  var answersFirstQuestion = [];
+  middleFormAnswer1.forEach(item => {
+    answersFirstQuestion.push(
+      item.dataValues);
+  });
+  // Agrego pregunta al objeto por las dudas
+  answersFirstQuestion.forEach(item => {
+    item.answerText = getTextAnswer(item.answer);
+  });
   
+  var middleFormAnswers = [];
+  var middleFormAnswer1Object = {
+    question: 'Lo que comparti estos días define lo que soy',
+    answers: answersFirstQuestion
+  }
+  middleFormAnswers.push(middleFormAnswer1Object);
+
+  middleFormAnswer2 = await MiddleFormAnswer.findAll({
+    attributes: [["Answer_2", "answer"], [db.sequelize.fn("COUNT", db.sequelize.col("Answer_2")), "amount"]],
+    group: ['Answer_2'],
+  });
+
+  var answersSecondQuestion = [];
+  middleFormAnswer2.forEach(item => {
+    answersSecondQuestion.push(
+      item.dataValues);
+  });
+  // Agrego pregunta al objeto por las dudas
+  answersSecondQuestion.forEach(item => {
+    item.answerText = getTextAnswer(item.answer);
+  });
+
+  var middleFormAnswer2Object = {
+    question: 'Lo que comparti estos días define lo que quiero que vean de mi',
+    answers: answersSecondQuestion
+  }
+  middleFormAnswers.push(middleFormAnswer2Object);
+
+
+  // select COUNT(*) from MiddleFormAnswers
+  // GROUP BY Answer_1;
+  //   const middleFormAnswers = 
+
+  console.log(answersFirstQuestion);
 
   res.status(200).json({
     countries: usersCountries,
     totalUsers: totalUsers,
     userGenders: userGenders,
-    userAges: userAges
-
+    userAges: userAges,
+    averageHours: durationAvg.hours(),
+    trackedUsers: dailyUsageByUser.length,
+    instagramPercentage: instagramPercentage,
+    middleFormAnswers: middleFormAnswers
   });
 }
 
