@@ -8,9 +8,7 @@ const EdigaUser = db.EdigaUser;
 async function login(req, res) {
 	const { email, password } = req.body
 	// Check if email and password are provided.
-  console.log(req.body);
 	if (!email || !password) {
-    console.log("jsoiaejioa")
 		return res.status(400).json({
 			message: "Email and password are required",
 		})
