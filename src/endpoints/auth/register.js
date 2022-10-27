@@ -7,13 +7,6 @@ const isLoggedIn = require("./authenticate").isLoggedIn;
 const EdigaUser = db.EdigaUser;
 
 async function register(req, res) {
-  authorized = await isLoggedIn(req);
-  if (!authorized) {
-    return res.status(401).json({
-      error: "Unauthorized",
-      message: "Es necesario iniciar sesión para crear usuarios"
-    });
-  }
   const { email, password, name } = req.body
   // Basic validation
   if (!email) {

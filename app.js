@@ -4,6 +4,7 @@
 const login = require('./src/endpoints/auth/login');
 const register = require('./src/endpoints/auth/register');
 const passwordReset = require('./src/endpoints/auth/passwordReset');
+const authMiddleware = require('./src/authMiddleware');
 
 //Users
 const getUsers = require('./src/endpoints/getUsers');
@@ -49,6 +50,9 @@ const port = process.env.PORT || 3001;
 app.use(bodyParser.json({ limit: "50mb" }));
 
 app.use(cookieParser());
+
+app.use(authMiddleware);
+
 
 // routes
 // get all users
