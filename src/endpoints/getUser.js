@@ -16,12 +16,12 @@ async function getUser(req, res) {
     });
     var resp = {
         userCountry: users.country,
-        answer1: registerInfo.answer1,
-        answer2: registerInfo.answer2,
+        answer1: registerInfo && registerInfo.answer1,
+        answer2: registerInfo && registerInfo.answer2,
         answer1openField: registerInfo.answer1Field,
-        answer3: registerInfo.answer3,
-        answer3openField: registerInfo.answer3Field,
-        alias: registerInfo.alias
+        answer3: registerInfo && registerInfo.answer3,
+        answer3openField: registerInfo && registerInfo.answer3Field,
+        alias: registerInfo && registerInfo.alias
     }
     console.log("Se envía el participante de id: ", userId);
     res.status(200).json(resp);

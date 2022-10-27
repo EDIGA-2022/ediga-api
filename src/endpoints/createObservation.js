@@ -14,7 +14,7 @@ async function createObservation(req, res) {
     var text = req.body.observation; //text
     var photoId = req.body.photoId;
     var edigaUserPhoto = req.body.edigaUserPhoto;
-    if (userId == null){
+    if (userId == null) {
         return res.status(400).json({ message: "El usuario no puede ser null" })
     }
     const newObservation = await Observation.create({
@@ -31,7 +31,7 @@ async function createObservation(req, res) {
         edigaUserPhoto,
     });
     console.log("New observation created. Id: ", newObservation.userId);
-    res.status(200).json({message: "Success"});
+    res.status(200).json({ message: "Success" });
 }
 
 module.exports = createObservation;
