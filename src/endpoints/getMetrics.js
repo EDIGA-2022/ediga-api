@@ -3,7 +3,7 @@ const db = require("../db.js");
 const { getCountry, getGender, getTextAnswer } = require("../utils.js");
 const User = db.User;
 const DailyUsage = db.DailyUsage;
-const MiddleFormAnswer = db.MiddleFormAnswers; 
+const MiddleFormAnswer = db.MiddleFormAnswers;
 const EndFormAnswer = db.EndFormAnswers;
 
 const UserRegisterInfo = db.UserRegisterInfo;
@@ -125,10 +125,16 @@ async function getMiddleFormAnswers() {
   });
 
   totalAnswers = 0;
+  mostPopularAnswer = "";
+  mostPopularAmount = 0;
   var answersFirstQuestion = [];
   middleFormAnswer1.forEach(item => {
     answersFirstQuestion.push(
       item.dataValues);
+    if (item.dataValues.amount > mostPopularAmount) {
+      mostPopularAmount = item.dataValues.amount;
+      mostPopularAnswer = getTextAnswer(item.dataValues.answer);
+    }
     totalAnswers += item.dataValues.amount;
   });
 
@@ -140,7 +146,8 @@ async function getMiddleFormAnswers() {
   var middleFormAnswers = [];
   var middleFormAnswer1Object = {
     question: 'Lo que comparti estos días define lo que soy',
-    answers: answersFirstQuestion
+    answers: answersFirstQuestion,
+    mostPopularAnswer: mostPopularAnswer,
   }
   middleFormAnswers.push(middleFormAnswer1Object);
 
@@ -150,9 +157,15 @@ async function getMiddleFormAnswers() {
   });
 
   var answersSecondQuestion = [];
+  var mostPopularAnswer = "";
+  var mostPopularAmount = 0;
   middleFormAnswer2.forEach(item => {
     answersSecondQuestion.push(
       item.dataValues);
+    if (item.dataValues.amount > mostPopularAmount) {
+      mostPopularAmount = item.dataValues.amount;
+      mostPopularAnswer = getTextAnswer(item.dataValues.answer);
+    }
   });
 
   answersSecondQuestion.forEach(item => {
@@ -161,10 +174,11 @@ async function getMiddleFormAnswers() {
 
   var middleFormAnswer2Object = {
     question: 'Lo que comparti estos días define lo que quiero que vean de mi',
-    answers: answersSecondQuestion
+    answers: answersSecondQuestion,
+    mostPopularAnswer: mostPopularAnswer,
   }
   middleFormAnswers.push(middleFormAnswer2Object);
-  return {middleFormAnswers, totalAnswers};
+  return { middleFormAnswers, totalAnswers };
 }
 
 // Get all the questions and answers for the end form
@@ -176,12 +190,18 @@ async function getEndFormAnswers() {
   });
 
   totalAnswers = 0;
+  var mostPopularAnswer = "";
+  var mostPopularAmount = 0;
 
   var answersFirstQuestion = [];
   endFormAnswer1.forEach(item => {
     answersFirstQuestion.push(
       item.dataValues);
     totalAnswers += item.dataValues.amount;
+    if (item.dataValues.amount > mostPopularAmount) {
+      mostPopularAmount = item.dataValues.amount;
+      mostPopularAnswer = getTextAnswer(item.dataValues.answer);
+    }
   });
   // Agrego pregunta al objeto por las dudas
   answersFirstQuestion.forEach(item => {
@@ -191,7 +211,8 @@ async function getEndFormAnswers() {
   var endFormAnswers = [];
   var endFormAnswer1Object = {
     question: 'Has establecido contacto con otras personas por Instagram por afinidad de género',
-    answers: answersFirstQuestion
+    answers: answersFirstQuestion,
+    mostPopularAnswer: mostPopularAnswer,
   }
   endFormAnswers.push(endFormAnswer1Object);
 
@@ -201,10 +222,18 @@ async function getEndFormAnswers() {
   });
 
   var answersSecondQuestion = [];
+
+  var mostPopularAnswer = "";
+  var mostPopularAmount = 0;
   endFormAnswer2.forEach(item => {
     answersSecondQuestion.push(
       item.dataValues);
-    
+
+    if (item.dataValues.amount > mostPopularAmount) {
+      mostPopularAmount = item.dataValues.amount;
+      mostPopularAnswer = getTextAnswer(item.dataValues.answer);
+    }
+
   });
   // Agrego pregunta al objeto por las dudas
   answersSecondQuestion.forEach(item => {
@@ -213,10 +242,11 @@ async function getEndFormAnswers() {
 
   var endFormAnswer2Object = {
     question: 'Los contenidos de otras personas te han hecho reflexionar sobre tu identidad de género',
-    answers: answersSecondQuestion
+    answers: answersSecondQuestion,
+    mostPopularAnswer: mostPopularAnswer,
   }
   endFormAnswers.push(endFormAnswer2Object);
-  return {endFormAnswers, totalAnswers};
+  return { endFormAnswers, totalAnswers };
 }
 
 
