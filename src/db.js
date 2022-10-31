@@ -37,6 +37,15 @@ db.EdigaUser = require("../models/EdigaUser.model")(sequelize, Sequelize);
 // UserRegistryInfo
 db.UserRegisterInfo = require("../models/UserRegisterInfo.model.js")(sequelize, Sequelize);
 
+// DailyUsage
+db.DailyUsage = require("../models/DailyUsage.model.js")(sequelize, Sequelize);
+
+// Observation
+db.Observation = require("../models/Observation.model.js")(sequelize, Sequelize);
+
+//Diary Entry
+db.DiaryEntry = require("../models/DiaryEntry.model.js")(sequelize, Sequelize);
+
 db.User.hasMany(db.Photo, { as: 'photos', foreignKey: { name: 'userId', field: 'Id' } });
 db.Photo.belongsTo(db.User, { as: 'user', foreignKey: { name: 'userId', field: 'UserId' } });
 
@@ -48,6 +57,19 @@ db.MiddleFormAnswers.hasOne(db.User, { as: 'user', foreignKey: { name: 'userId',
 
 db.User.hasOne(db.EndFormAnswers, { as: 'endFormAnswers', foreignKey: { name: 'userId', field: 'Id' } });
 db.EndFormAnswers.hasOne(db.User, { as: 'user', foreignKey: { name: 'userId', field: 'UserId' } });
+
+db.User.hasMany(db.Observation, { as: 'observations', foreignKey: { name: 'userId', field: 'Id' } });
+// belongs to? has one?
+db.Observation.belongsTo(db.User, { as: 'user', foreignKey: { name: 'userId', field: 'UserId' } });
+
+db.Photo.hasMany(db.Observation, { as: 'observations', foreignKey: { name: 'photoId', field: 'Id' } });
+// belongs to? has one?
+db.Observation.belongsTo(db.Photo, { as: 'photo', foreignKey: { name: 'photoId', field: 'photoId' } });
+
+db.User.hasMany(db.DiaryEntry, { as: 'entries', foreignKey: { name: 'userId', field: 'Id' } });
+// belongs to? has one?
+db.DiaryEntry.belongsTo(db.User, { as: 'user', foreignKey: { name: 'userId', field: 'UserId' } });
+
 
 // db.customers = require("../models/customer.model.js")(sequelize, Sequelize);
 // db.products = require("../models/product.model.js")(sequelize, Sequelize);

@@ -30,6 +30,10 @@ async function getUserProfile(req, res) {
       }
     ]
   });
+  if (!user) {
+    res.status(200).json({});
+    return
+  }
   res.status(200).json(transformer(user));
 }
 

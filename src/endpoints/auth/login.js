@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken')
 const EdigaUser = db.EdigaUser;
 
 async function login(req, res) {
-
 	const { email, password } = req.body
 	// Check if email and password are provided.
 	if (!email || !password) {
@@ -32,10 +31,6 @@ async function login(req, res) {
 						jwtSecretKey,
 						{ expiresIn: maxAge } // 24 hs in secs
 					);
-					res.cookie("jwt", token, {
-						// httpOnly: true,
-						maxAge: maxAge * 1000, // 24hrs in ms
-					});
 					res.status(200).json({
 						message: "Login successful",
 						user: {
@@ -44,7 +39,8 @@ async function login(req, res) {
 							name: user.name,
 							firstLogIn: user.firstLogIn
 						},
-					});
+            token: token
+					})
 				} else {
 					res.status(400).json({ message: "Email or password are incorrect. Try again" });
 				}

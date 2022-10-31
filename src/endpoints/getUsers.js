@@ -5,6 +5,7 @@ const MiddleFormAnswers = db.MiddleFormAnswers;
 const EndFormAnswers = db.EndFormAnswers;
 const { getCountry, getGender, getTextAnswer } = require("../utils.js");
 
+
 function userInfoTransformer(users) {
     const results = []
     for (user of users) {
@@ -31,22 +32,23 @@ function userInfoTransformer(users) {
 
 
 async function getUsers(req, res) {
-    const usersInfo = await User.findAll({
-        include: [
-            {
-                model: UserRegisterInfo,
-                as: 'userRegisterInfo',
-                required: true,
-            },
-            {
-                model: MiddleFormAnswers,
-                as: 'middleFormAnswers',
-            },
-            {
-                model: EndFormAnswers,
-                as: 'endFormAnswers',
-            }
-        ],
+  
+  const usersInfo = await User.findAll({
+      include: [
+          {
+              model: UserRegisterInfo,
+              as: 'userRegisterInfo',
+              required: true,
+          },
+          {
+              model: MiddleFormAnswers,
+              as: 'middleFormAnswers',
+          },
+          {
+              model: EndFormAnswers,
+              as: 'endFormAnswers',
+          }
+      ],
     });
     console.log(JSON.stringify(usersInfo));
     res.status(200).json(userInfoTransformer(usersInfo));
