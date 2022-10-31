@@ -20,6 +20,12 @@ const getUserObservations = require('./src/endpoints/getUserObservations');
 const getObservation = require('./src/endpoints/getObservation');
 const editObservation = require('./src/endpoints/editObservation');
 
+//Diary entry
+const createDiaryEntry = require('./src/endpoints/createDiaryEntry');
+const editDiaryEntry = require('./src/endpoints/editDiaryEntry');
+const getDiaryEntry = require('./src/endpoints/getDiaryEntry');
+const getUserDiaryEntries = require('./src/endpoints/getUserDiaryEntries');
+
 //Metrics
 const getMetrics = require('./src/endpoints/getMetrics');
 
@@ -32,6 +38,7 @@ const cookieParser = require('cookie-parser');
 // create server
 const app = express();
 const cors = require('cors');
+
 const corsOptions = {
   // Autoriza a todos los dominios a pegarle al back
   origin: '*',
@@ -84,6 +91,21 @@ app.post('/api/observations', createObservation);
 // get all observations of a user with userId
 app.get('/api/observations/user/:userId', getUserObservations);
 
+//create new diary entry
+app.post('/api/diaryEntry', createDiaryEntry);
+
+// get entry
+app.get('/api/diaryEntry/:entryId', getDiaryEntry);
+
+// edit entry
+app.put('/api/diaryEntry/', editDiaryEntry);
+
+// get all diary entries of a user with userId
+app.get('/api/diaryEntry/user/:userId', getUserDiaryEntries);
+
+app.post('/api/login', login)
+app.post('/api/register', register)
+app.post('/api/password-reset', passwordReset)
 app.post('/api/login', login);
 app.post('/api/register', register);
 app.post('/api/password-reset', passwordReset);

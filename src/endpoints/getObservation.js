@@ -14,6 +14,10 @@ async function getObsevation(req, res) {
             },
         ]
     });
+    if (!obs) {
+        res.status(200).json({});
+        return
+    }
     var resp = {
         observationId: obs.observationId,
         title: obs.title,
