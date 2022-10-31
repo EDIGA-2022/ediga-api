@@ -6,8 +6,12 @@ const EdigaUser = db.EdigaUser;
 // Function that can be used from anywhere in the code to check if user is logged in 
 async function isLoggedIn(req) {
 	const jwtSecretKey = process.env.JWT_SECRET_KEY;
-  const token = req.headers.authorization.replace("Bearer ","");
-
+  var token = ''
+  if (req.headers.authorization){
+    token = req.headers.authorization.replace("Bearer ","");
+  } else {
+    return false;
+  }
 	if (token) {
 		data = verifyToken(token, jwtSecretKey);
 		if (data) {

@@ -1,8 +1,10 @@
 'use strict';
 
+// Auth
 const login = require('./src/endpoints/auth/login');
 const register = require('./src/endpoints/auth/register');
 const passwordReset = require('./src/endpoints/auth/passwordReset');
+const authMiddleware = require('./src/authMiddleware');
 
 //Users
 const getUsers = require('./src/endpoints/getUsers');
@@ -23,6 +25,9 @@ const createDiaryEntry = require('./src/endpoints/createDiaryEntry');
 const editDiaryEntry = require('./src/endpoints/editDiaryEntry');
 const getDiaryEntry = require('./src/endpoints/getDiaryEntry');
 const getUserDiaryEntries = require('./src/endpoints/getUserDiaryEntries');
+
+//Metrics
+const getMetrics = require('./src/endpoints/getMetrics');
 
 // import express
 const express = require('express');
@@ -52,6 +57,9 @@ const port = process.env.PORT || 3001;
 app.use(bodyParser.json({ limit: "50mb" }));
 
 app.use(cookieParser());
+
+app.use(authMiddleware);
+
 
 // routes
 // get all users
@@ -98,6 +106,13 @@ app.get('/api/diaryEntry/user/:userId', getUserDiaryEntries);
 app.post('/api/login', login)
 app.post('/api/register', register)
 app.post('/api/password-reset', passwordReset)
+app.post('/api/login', login);
+app.post('/api/register', register);
+app.post('/api/password-reset', passwordReset);
+
+// get all metrics
+app.get('/api/metrics', getMetrics);
+
 app.listen(port, () => {
     console.log(`API running on http://localhost:${port}`);
 });

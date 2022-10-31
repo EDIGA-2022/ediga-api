@@ -1,5 +1,6 @@
 const db = require("../db.js");
 const Observation = db.Observation;
+const Photo = db.Photo;
 
 async function getUserObservations(req, res) {
     const userId = req.params.userId;
@@ -9,6 +10,7 @@ async function getUserObservations(req, res) {
         }
     });
     const observations = [];
+    // photoObservation is true when the obs is a obs of a photo
     userObservation.forEach(element => {
         observations.push({
             observationId: element.observationId,

@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken')
 const EdigaUser = db.EdigaUser;
 
 async function login(req, res) {
-
 	const { email, password } = req.body
 	// Check if email and password are provided.
 	if (!email || !password) {

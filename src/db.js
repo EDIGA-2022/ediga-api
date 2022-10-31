@@ -37,6 +37,9 @@ db.EdigaUser = require("../models/EdigaUser.model")(sequelize, Sequelize);
 // UserRegistryInfo
 db.UserRegisterInfo = require("../models/UserRegisterInfo.model.js")(sequelize, Sequelize);
 
+// DailyUsage
+db.DailyUsage = require("../models/DailyUsage.model.js")(sequelize, Sequelize);
+
 // Observation
 db.Observation = require("../models/Observation.model.js")(sequelize, Sequelize);
 
