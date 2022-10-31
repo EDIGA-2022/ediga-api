@@ -3,15 +3,15 @@ const DiaryEntry = db.DiaryEntry;
 
 async function getDiaryEntry(req, res) {
     const diaryEntryId = req.params.entryId;
-    const obs = await DiaryEntry.findOne({
-        where: {
-            diaryEntryId,
-        }
-    });
+    const diaryEntry = await DiaryEntry.findByPk(diaryEntryId);
+    if (!diaryEntry) {
+        res.status(200).json({});
+        return
+    }
     var resp = {
-        entryId: obs.diaryEntryId,
-        userId: obs.userId,
-        entry: obs.text,
+        diaryEntryId: diaryEntry.diaryEntryId,
+        userId: diaryEntry.userId,
+        entry: diaryEntry.text,
     }
     res.status(200).json(resp);
 }

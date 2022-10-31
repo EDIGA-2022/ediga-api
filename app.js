@@ -22,6 +22,7 @@ const editObservation = require('./src/endpoints/editObservation');
 const createDiaryEntry = require('./src/endpoints/createDiaryEntry');
 const editDiaryEntry = require('./src/endpoints/editDiaryEntry');
 const getDiaryEntry = require('./src/endpoints/getDiaryEntry');
+const getUserDiaryEntries = require('./src/endpoints/getUserDiaryEntries');
 
 // import express
 const express = require('express');
@@ -91,6 +92,8 @@ app.get('/api/diaryEntry/:entryId', getDiaryEntry);
 // edit entry
 app.put('/api/diaryEntry/', editDiaryEntry);
 
+// get all diary entries of a user with userId
+app.get('/api/diaryEntry/user/:userId', getUserDiaryEntries);
 
 app.post('/api/login', login)
 app.post('/api/register', register)
