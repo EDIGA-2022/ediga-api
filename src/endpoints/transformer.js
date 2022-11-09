@@ -11,6 +11,7 @@ function transformer(user) {
                 p.answer1 = getTextAnswer(p.answer1);
                 p.answer2 = getTextAnswer(p.answer2);
                 p.answer3 = getTextAnswer(p.answer3);
+                p.userId = user.userId;
                 return p;
             }
         }),
