@@ -23,7 +23,7 @@ function getGender(key) {
             return "Hombre trans"
         case 5:
             return "No binario"
-        case 5:
+        case 6:
             return "Otro"
         default:
             return ""

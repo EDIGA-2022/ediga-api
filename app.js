@@ -13,6 +13,7 @@ const getUserPhotos = require('./src/endpoints/getUserPhotos');
 const createUser = require('./src/endpoints/createUser');
 const getUserProfile = require('./src/endpoints/getUserProfile');
 const editUser = require('./src/endpoints/editUser');
+const exportPhotos = require('./src/endpoints/exportPhotos');
 
 //Observation
 const createObservation = require('./src/endpoints/createObservation');
@@ -86,7 +87,7 @@ app.get('/api/observation/:observationId', getObservation);
 app.put('/api/observation/', editObservation);
 
 // create new observation
-app.post('/api/observations', createObservation);
+app.post('/api/observations/:userId', createObservation);
 
 // get all observations of a user with userId
 app.get('/api/observations/user/:userId', getUserObservations);
@@ -102,6 +103,9 @@ app.put('/api/diaryEntry/', editDiaryEntry);
 
 // get all diary entries of a user with userId
 app.get('/api/diaryEntry/user/:userId', getUserDiaryEntries);
+
+// export all photos
+app.get('/api/exportPhotos', exportPhotos)
 
 app.post('/api/login', login)
 app.post('/api/register', register)
