@@ -10,6 +10,7 @@ const authMiddleware = require('./src/authMiddleware');
 const deleteEdigaUser = require('./src/endpoints/deleteEdigaUser');
 const setAdminEdiga = require('./src/endpoints/setAdminEdiga');
 const getEdigaUsers = require('./src/endpoints/getEdigaUsers');
+const getEdigaUser = require('./src/endpoints/getEdigaUser');
 
 
 //Users
@@ -101,6 +102,7 @@ app.get('/api/metrics', getMetrics);
 app.delete('/api/deleteEdigaUser', deleteEdigaUser);
 app.post('/api/setAdminEdiga', setAdminEdiga);
 // remove admin role from ediga user
+app.get('/api/edigaUsers/:userId', getEdigaUser);
 app.get('/api/edigaUsers', getEdigaUsers);
 
 
