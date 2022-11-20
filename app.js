@@ -8,9 +8,8 @@ const authMiddleware = require('./src/authMiddleware');
 
 // Ediga Users
 const deleteEdigaUser = require('./src/endpoints/deleteEdigaUser');
-const makeAdminEdiga = require('./src/endpoints/makeAdminEdiga');
+const setAdminEdiga = require('./src/endpoints/setAdminEdiga');
 const getEdigaUsers = require('./src/endpoints/getEdigaUsers');
-
 
 
 //Users
@@ -39,7 +38,6 @@ const cookieParser = require('cookie-parser');
 // create server
 const app = express();
 const cors = require('cors');
-const deleteAdminEdiga = require('./src/endpoints/deleteAdminEdiga');
 const corsOptions = {
   // Autoriza a todos los dominios a pegarle al back
   origin: '*',
@@ -101,9 +99,8 @@ app.get('/api/metrics', getMetrics);
 
 // delete ediga user
 app.delete('/api/deleteEdigaUser', deleteEdigaUser);
-app.post('/api/makeAdminEdiga', makeAdminEdiga);
+app.post('/api/setAdminEdiga', setAdminEdiga);
 // remove admin role from ediga user
-app.post('/api/deleteAdminEdiga', deleteAdminEdiga);
 app.get('/api/edigaUsers', getEdigaUsers);
 
 
