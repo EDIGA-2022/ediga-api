@@ -7,7 +7,7 @@ const isLoggedIn = require("./authenticate").isLoggedIn;
 const EdigaUser = db.EdigaUser;
 
 async function register(req, res) {
-  const { email, password, name } = req.body
+  const { email, password, name, isAdmin } = req.body
   // Basic validation
   if (!email) {
     return res.status(400).json({message: "Email is required"});
@@ -24,6 +24,7 @@ async function register(req, res) {
     return res.status(400).json({ message: "El usuario ya existe" })
   }
   const jwtSecretKey = process.env.JWT_SECRET_KEY;
+
   // Create user with hashed password
   bcrypt.hash(password, 10).then(async (hash) => {
     await EdigaUser.create({
@@ -31,6 +32,7 @@ async function register(req, res) {
       name,
       password: hash,
       firstLogin: true,
+      isAdmin: isAdmin ? isAdmin : false
     })
       .then((user) =>{
         const maxAge = 3 * 60 * 60;
@@ -41,18 +43,13 @@ async function register(req, res) {
             expiresIn: maxAge, // 3hrs in sec
           }
         );
-        // This code is intendedly deleted, as we don't want the admin to be logged in.
-
-        // res.cookie("jwt", token, {
-        //   httpOnly: true,
-        //   maxAge: maxAge * 1000, // 3hrs in ms
-        // });
         res.status(200).json({
           message: "User successfully created",
           user: {
             edigaUserId: user.edigaUserId,
             email: user.email,
-            name: user.name
+            name: user.name,
+            isAdmin: user.isAdmin,
           },
         })
       }
@@ -65,6 +62,5 @@ async function register(req, res) {
       );
   });
 };
-
 
 module.exports = register;

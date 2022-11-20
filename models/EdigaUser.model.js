@@ -24,6 +24,11 @@ module.exports = (sequelize, Sequelize) => {
 			type: Sequelize.BOOLEAN,
 			defaultValue: true,
 			field: 'first_log_in'
+		},
+    isAdmin: {
+			type: Sequelize.BOOLEAN,
+			defaultValue: false,
+			field: 'is_admin'
 		}
 	},
 		{

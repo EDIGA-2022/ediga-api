@@ -6,6 +6,12 @@ const register = require('./src/endpoints/auth/register');
 const passwordReset = require('./src/endpoints/auth/passwordReset');
 const authMiddleware = require('./src/authMiddleware');
 
+// Ediga Users
+const deleteEdigaUser = require('./src/endpoints/deleteEdigaUser');
+const makeAdminEdiga = require('./src/endpoints/makeAdminEdiga');
+
+
+
 //Users
 const getUsers = require('./src/endpoints/getUsers');
 const getUser = require('./src/endpoints/getUser');
@@ -32,6 +38,7 @@ const cookieParser = require('cookie-parser');
 // create server
 const app = express();
 const cors = require('cors');
+const deleteAdminEdiga = require('./src/endpoints/deleteAdminEdiga');
 const corsOptions = {
   // Autoriza a todos los dominios a pegarle al back
   origin: '*',
@@ -90,6 +97,14 @@ app.post('/api/password-reset', passwordReset);
 
 // get all metrics
 app.get('/api/metrics', getMetrics);
+
+// delete ediga user
+app.delete('/api/deleteEdigaUser', deleteEdigaUser);
+app.post('/api/makeAdminEdiga', makeAdminEdiga);
+// remove admin role from ediga user
+app.post('/api/deleteAdminEdiga', deleteAdminEdiga);
+
+
 
 app.listen(port, () => {
     console.log(`API running on http://localhost:${port}`);
