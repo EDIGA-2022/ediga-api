@@ -11,6 +11,7 @@ const deleteEdigaUser = require('./src/endpoints/deleteEdigaUser');
 const setAdminEdiga = require('./src/endpoints/setAdminEdiga');
 const getEdigaUsers = require('./src/endpoints/getEdigaUsers');
 const getEdigaUser = require('./src/endpoints/getEdigaUser');
+const editEdigaUser = require('./src/endpoints/editEdigaUser');
 
 
 //Users
@@ -104,6 +105,7 @@ app.post('/api/setAdminEdiga', setAdminEdiga);
 // remove admin role from ediga user
 app.get('/api/edigaUsers/:userId', getEdigaUser);
 app.get('/api/edigaUsers', getEdigaUsers);
+app.post('/api/editEdigaUser', editEdigaUser);
 
 
 
