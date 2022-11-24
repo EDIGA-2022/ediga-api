@@ -6,6 +6,14 @@ const register = require('./src/endpoints/auth/register');
 const passwordReset = require('./src/endpoints/auth/passwordReset');
 const authMiddleware = require('./src/authMiddleware');
 
+// Ediga Users
+const deleteEdigaUser = require('./src/endpoints/deleteEdigaUser');
+const setAdminEdiga = require('./src/endpoints/setAdminEdiga');
+const getEdigaUsers = require('./src/endpoints/getEdigaUsers');
+const getEdigaUser = require('./src/endpoints/getEdigaUser');
+const editEdigaUser = require('./src/endpoints/editEdigaUser');
+
+
 //Users
 const getUsers = require('./src/endpoints/getUsers');
 const getUser = require('./src/endpoints/getUser');
@@ -116,6 +124,16 @@ app.post('/api/password-reset', passwordReset);
 
 // get all metrics
 app.get('/api/metrics', getMetrics);
+
+// delete ediga user
+app.delete('/api/deleteEdigaUser', deleteEdigaUser);
+app.post('/api/setAdminEdiga', setAdminEdiga);
+// remove admin role from ediga user
+app.get('/api/edigaUsers/:userId', getEdigaUser);
+app.get('/api/edigaUsers', getEdigaUsers);
+app.post('/api/editEdigaUser', editEdigaUser);
+
+
 
 app.listen(port, () => {
     console.log(`API running on http://localhost:${port}`);
