@@ -18,6 +18,11 @@ async function setAdminEdiga(req, res) {
         success: false
       })
     }
+  } else {
+    res.status(401).json({
+      message: "Unauthorized",
+      success: false
+    })
   }
 }
 

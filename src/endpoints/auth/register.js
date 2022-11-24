@@ -7,16 +7,19 @@ const isLoggedIn = require("./authenticate").isLoggedIn;
 const EdigaUser = db.EdigaUser;
 
 async function register(req, res) {
-  const { email, password, name, isAdmin } = req.body
+  const { email, password, name, isAdmin, country } = req.body
   // Basic validation
   if (!email) {
-    return res.status(400).json({message: "Email is required"});
+    return res.status(400).json({message: "El campo de email es obligatorio"});
   }
   if (!name) {
-    return res.status(400).json({message: "Name is required"});
+    return res.status(400).json({message: "El campo de nombre es obligatorio"});
+  }
+  if (!country) {
+    return res.status(400).json({message: "El campo de país es obligatorio"});
   }
   if (password.length < 6) {
-    return res.status(400).json({ message: "Password less than 6 characters" })
+    return res.status(400).json({ message: "La contraseña debe tener más de 6 caracteres" })
   }
   // Email is already registered
   const dbEmail = await EdigaUser.findOne({ where: { email: email } });
@@ -32,7 +35,8 @@ async function register(req, res) {
       name,
       password: hash,
       firstLogin: true,
-      isAdmin: isAdmin ? isAdmin : false
+      isAdmin: isAdmin ? isAdmin : false,
+      country: country
     })
       .then((user) =>{
         const maxAge = 3 * 60 * 60;
@@ -50,6 +54,7 @@ async function register(req, res) {
             email: user.email,
             name: user.name,
             isAdmin: user.isAdmin,
+            country: user.country
           },
         })
       }
