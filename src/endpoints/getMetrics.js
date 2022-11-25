@@ -1,16 +1,17 @@
-const { sequelize, MiddleFormAnswers } = require("../db.js");
+const { sequelize, } = require("../db.js");
 const db = require("../db.js");
 const { getCountry, getGender, getTextAnswer } = require("../utils.js");
 const User = db.User;
 const DailyUsage = db.DailyUsage;
 const MiddleFormAnswer = db.MiddleFormAnswers;
+const EndFormAnswer = db.EndFormAnswers;
 
 const UserRegisterInfo = db.UserRegisterInfo;
 const moment = require('moment');
 
 async function getMetrics(req, res) {
 
-  // Devuelve todos los países registrados y la cantidad de usuarios que hay en cada uno
+  // Get all registered countries and the amount of users for each one
   const usersCountries = await User.findAll({
     attributes: ["country", [db.sequelize.fn("COUNT", db.sequelize.col("country")), "amount"]],
     group: ['country'],
@@ -21,13 +22,14 @@ async function getMetrics(req, res) {
     totalUsers += item.dataValues.amount;
   });
 
-  // Devuelve géneros y cantidad de cada uno
+  // Get genders and amount of each one
   userGenders = await getGenders();
 
-  // Devuelve edades y cantidad de cada una
+
+  // Get ages and amount for each age
   userAges = await getAges();
 
-  // Cálculo del promedio de uso diario (en segundo plano?)
+  // Average daily usage (in background)
   const dailyUsageQuery = await DailyUsage.findAll({
     attributes: ["usageTime"],
   });
@@ -42,7 +44,7 @@ async function getMetrics(req, res) {
 
   const durationAvg = moment.duration(avgUsageTime);
 
-  // Cantidad de usuarios trackeados con daily usage (usuarios que permiten la app en segundo plano)
+  // Amount of users tracked with daily usage (users that allow the app running in the background)
   const dailyUsageByUser = await DailyUsage.findAll({
     attributes: [[db.sequelize.fn("COUNT", db.sequelize.col("UserId")), "amount"]],
     group: ["UserId"],
@@ -55,10 +57,15 @@ async function getMetrics(req, res) {
     }
   });
 
-  // Porcentaje de usuarios que permite el uso de su perfil de instagram
+  // User percentage that allows the use of their instagram profile
   const instagramPercentage = Math.trunc(usersWithInstagram.length * 100 / totalUsers);
 
-  middleFormAnswers = await getMiddleFormAnswers();
+  middleFormAnswersData = await getMiddleFormAnswers();
+  endFormAnswersData = await getEndFormAnswers();
+
+  // Users that didn't answer the end form
+  const usersWithoutEndForm = middleFormAnswersData.totalAnswers - endFormAnswersData.totalAnswers;
+
 
   res.status(200).json({
     countries: usersCountries,
@@ -68,7 +75,11 @@ async function getMetrics(req, res) {
     averageHours: durationAvg.hours(),
     trackedUsers: dailyUsageByUser.length,
     instagramPercentage: instagramPercentage,
-    middleFormAnswers: middleFormAnswers
+    middleFormAnswers: middleFormAnswersData.middleFormAnswers,
+    middleFormAnswersAmount: middleFormAnswersData.totalAnswers,
+    endFormAnswers: endFormAnswersData.endFormAnswers,
+    endFormAnswersAmount: endFormAnswersData.totalAnswers,
+    usersWithoutEndForm: usersWithoutEndForm
   });
 }
 
@@ -82,9 +93,8 @@ async function getGenders() {
   );
 
   userGenders = [];
-  // En generos devuelvo todos las opciones con sus respectivas cantidades y 
-  // el codigo del genero para poder filtrar las de genero "6" (campo libre) desde el front. 
-  // Para los generos que estan predefinidos, el campo "openField lo seteo vacio".
+  // Genders has all the options with their corresponding amount and the gender code so that we can filter the ones with gender "6" (textfield) from the frontend.
+  // For all predefined genders, the openField is set as empty
   genders = userGendersQuery[0].forEach(item => {
     currentItem = {
       gender: item.answer1 === 6 ? item.Answer_1_open_field : getGender(item.answer1),
@@ -106,8 +116,7 @@ async function getAges() {
   return ages;
 }
 
-// Devuelve las preguntas y respuestas para todo el formulario con sus cantidades
-
+// Get all the questions and answers for the middle form
 async function getMiddleFormAnswers() {
   // Middle form answers
   middleFormAnswer1 = await MiddleFormAnswer.findAll({
@@ -115,11 +124,20 @@ async function getMiddleFormAnswers() {
     group: ['Answer_1'],
   });
 
+  totalAnswers = 0;
+  mostPopularAnswer = "";
+  mostPopularAmount = 0;
   var answersFirstQuestion = [];
   middleFormAnswer1.forEach(item => {
     answersFirstQuestion.push(
       item.dataValues);
+    if (item.dataValues.amount > mostPopularAmount) {
+      mostPopularAmount = item.dataValues.amount;
+      mostPopularAnswer = getTextAnswer(item.dataValues.answer);
+    }
+    totalAnswers += item.dataValues.amount;
   });
+
   // Agrego pregunta al objeto por las dudas
   answersFirstQuestion.forEach(item => {
     item.answerText = getTextAnswer(item.answer);
@@ -128,7 +146,8 @@ async function getMiddleFormAnswers() {
   var middleFormAnswers = [];
   var middleFormAnswer1Object = {
     question: 'Lo que comparti estos días define lo que soy',
-    answers: answersFirstQuestion
+    answers: answersFirstQuestion,
+    mostPopularAnswer: mostPopularAnswer,
   }
   middleFormAnswers.push(middleFormAnswer1Object);
 
@@ -138,23 +157,97 @@ async function getMiddleFormAnswers() {
   });
 
   var answersSecondQuestion = [];
+  var mostPopularAnswer = "";
+  var mostPopularAmount = 0;
   middleFormAnswer2.forEach(item => {
     answersSecondQuestion.push(
       item.dataValues);
+    if (item.dataValues.amount > mostPopularAmount) {
+      mostPopularAmount = item.dataValues.amount;
+      mostPopularAnswer = getTextAnswer(item.dataValues.answer);
+    }
   });
-  // Agrego pregunta al objeto por las dudas
+
   answersSecondQuestion.forEach(item => {
     item.answerText = getTextAnswer(item.answer);
   });
 
   var middleFormAnswer2Object = {
     question: 'Lo que comparti estos días define lo que quiero que vean de mi',
-    answers: answersSecondQuestion
+    answers: answersSecondQuestion,
+    mostPopularAnswer: mostPopularAnswer,
   }
   middleFormAnswers.push(middleFormAnswer2Object);
-  return middleFormAnswers;
+  return { middleFormAnswers, totalAnswers };
 }
 
+// Get all the questions and answers for the end form
+async function getEndFormAnswers() {
+  // Middle form answers
+  endFormAnswer1 = await EndFormAnswer.findAll({
+    attributes: [["Answer_1", "answer"], [db.sequelize.fn("COUNT", db.sequelize.col("Answer_1")), "amount"]],
+    group: ['Answer_1'],
+  });
+
+  totalAnswers = 0;
+  var mostPopularAnswer = "";
+  var mostPopularAmount = 0;
+
+  var answersFirstQuestion = [];
+  endFormAnswer1.forEach(item => {
+    answersFirstQuestion.push(
+      item.dataValues);
+    totalAnswers += item.dataValues.amount;
+    if (item.dataValues.amount > mostPopularAmount) {
+      mostPopularAmount = item.dataValues.amount;
+      mostPopularAnswer = getTextAnswer(item.dataValues.answer);
+    }
+  });
+  // Agrego pregunta al objeto por las dudas
+  answersFirstQuestion.forEach(item => {
+    item.answerText = getTextAnswer(item.answer);
+  });
+
+  var endFormAnswers = [];
+  var endFormAnswer1Object = {
+    question: 'Has establecido contacto con otras personas por Instagram por afinidad de género',
+    answers: answersFirstQuestion,
+    mostPopularAnswer: mostPopularAnswer,
+  }
+  endFormAnswers.push(endFormAnswer1Object);
+
+  endFormAnswer2 = await EndFormAnswer.findAll({
+    attributes: [["Answer_2", "answer"], [db.sequelize.fn("COUNT", db.sequelize.col("Answer_2")), "amount"]],
+    group: ['Answer_2'],
+  });
+
+  var answersSecondQuestion = [];
+
+  var mostPopularAnswer = "";
+  var mostPopularAmount = 0;
+  endFormAnswer2.forEach(item => {
+    answersSecondQuestion.push(
+      item.dataValues);
+
+    if (item.dataValues.amount > mostPopularAmount) {
+      mostPopularAmount = item.dataValues.amount;
+      mostPopularAnswer = getTextAnswer(item.dataValues.answer);
+    }
+
+  });
+  // Agrego pregunta al objeto por las dudas
+  answersSecondQuestion.forEach(item => {
+    item.answerText = getTextAnswer(item.answer);
+  });
+
+  var endFormAnswer2Object = {
+    question: 'Los contenidos de otras personas te han hecho reflexionar sobre tu identidad de género',
+    answers: answersSecondQuestion,
+    mostPopularAnswer: mostPopularAnswer,
+  }
+  endFormAnswers.push(endFormAnswer2Object);
+  return { endFormAnswers, totalAnswers };
+}
 
 
 module.exports = getMetrics;
