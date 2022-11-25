@@ -60,8 +60,8 @@ async function getMetrics(req, res) {
   // User percentage that allows the use of their instagram profile
   const instagramPercentage = Math.trunc(usersWithInstagram.length * 100 / totalUsers);
 
-  middleFormAnswersData = await getMiddleFormAnswers();
-  endFormAnswersData = await getEndFormAnswers();
+  middleFormAnswersData = await getMiddleFormAnswers(totalUsers);
+  endFormAnswersData = await getEndFormAnswers(totalUsers);
 
   // Users that didn't answer the end form
   const usersWithoutEndForm = middleFormAnswersData.totalAnswers - endFormAnswersData.totalAnswers;
@@ -117,7 +117,7 @@ async function getAges() {
 }
 
 // Get all the questions and answers for the middle form
-async function getMiddleFormAnswers() {
+async function getMiddleFormAnswers(totalUsers) {
   // Middle form answers
   middleFormAnswer1 = await MiddleFormAnswer.findAll({
     attributes: [["Answer_1", "answer"], [db.sequelize.fn("COUNT", db.sequelize.col("Answer_1")), "amount"]],
@@ -127,6 +127,7 @@ async function getMiddleFormAnswers() {
   totalAnswers = 0;
   mostPopularAnswer = "";
   mostPopularAmount = 0;
+  completionPercentage = 0;
   var answersFirstQuestion = [];
   middleFormAnswer1.forEach(item => {
     answersFirstQuestion.push(
@@ -148,6 +149,7 @@ async function getMiddleFormAnswers() {
     question: 'Lo que comparti estos días define lo que soy',
     answers: answersFirstQuestion,
     mostPopularAnswer: mostPopularAnswer,
+    completionPercentage: Math.trunc(totalAnswers * 100 / totalUsers)
   }
   middleFormAnswers.push(middleFormAnswer1Object);
 
@@ -176,13 +178,14 @@ async function getMiddleFormAnswers() {
     question: 'Lo que comparti estos días define lo que quiero que vean de mi',
     answers: answersSecondQuestion,
     mostPopularAnswer: mostPopularAnswer,
+    completionPercentage: Math.trunc(totalAnswers * 100 / totalUsers)
   }
   middleFormAnswers.push(middleFormAnswer2Object);
   return { middleFormAnswers, totalAnswers };
 }
 
 // Get all the questions and answers for the end form
-async function getEndFormAnswers() {
+async function getEndFormAnswers(totalUsers) {
   // Middle form answers
   endFormAnswer1 = await EndFormAnswer.findAll({
     attributes: [["Answer_1", "answer"], [db.sequelize.fn("COUNT", db.sequelize.col("Answer_1")), "amount"]],
@@ -193,6 +196,7 @@ async function getEndFormAnswers() {
   var mostPopularAnswer = "";
   var mostPopularAmount = 0;
 
+  completionPercentage = 0;
   var answersFirstQuestion = [];
   endFormAnswer1.forEach(item => {
     answersFirstQuestion.push(
@@ -213,6 +217,8 @@ async function getEndFormAnswers() {
     question: 'Has establecido contacto con otras personas por Instagram por afinidad de género',
     answers: answersFirstQuestion,
     mostPopularAnswer: mostPopularAnswer,
+    completionPercentage: Math.trunc(totalAnswers * 100 / totalUsers)
+
   }
   endFormAnswers.push(endFormAnswer1Object);
 
@@ -244,10 +250,11 @@ async function getEndFormAnswers() {
     question: 'Los contenidos de otras personas te han hecho reflexionar sobre tu identidad de género',
     answers: answersSecondQuestion,
     mostPopularAnswer: mostPopularAnswer,
+    completionPercentage: Math.trunc(totalAnswers * 100 / totalUsers)
+
   }
   endFormAnswers.push(endFormAnswer2Object);
   return { endFormAnswers, totalAnswers };
 }
-
 
 module.exports = getMetrics;
