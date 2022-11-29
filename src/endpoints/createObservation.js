@@ -3,13 +3,13 @@ const User = db.User;
 const Observation = db.Observation;
 
 async function createObservation(req, res) {
-    var userId = req.body.userId;
+    const userId = req.params.userId;
     var title = req.body.title;
     var type = req.body.type;
     var likes = req.body.likes;
     var comments = req.body.comments;
     var music = req.body.music;
-    var publicationDate = req.body.date;
+    var publicationDate = req.body.date ? req.body.date : null;
     var hasMusic = req.body.hasMusic;
     var text = req.body.observation; //text
     var photoId = req.body.photoId;

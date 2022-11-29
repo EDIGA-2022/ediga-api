@@ -37,7 +37,8 @@ async function login(req, res) {
 							edigaUserId: user.edigaUserId,
 							email: user.email,
 							name: user.name,
-							firstLogIn: user.firstLogIn
+							firstLogIn: user.firstLogIn,
+              isAdmin: user.isAdmin,
 						},
             token: token
 					})

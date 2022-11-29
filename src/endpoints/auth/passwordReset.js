@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 
 async function passwordReset(req, res) {
   const { password } = req.body;
-  var response = await setPassword(user, password);
+  var response = await setPassword(req.user, password);
   if (response.success) {
     return res.status(200).json({
       message: "Password updated",
