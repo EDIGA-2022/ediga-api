@@ -12,6 +12,10 @@ module.exports = (sequelize, Sequelize) => {
             field: 'user_id'
         },
         text: Sequelize.TEXT('long'),
+        createdBy: {
+            type: Sequelize.UUID,
+            field: 'created_by'
+        },
         createdAt: {
             type: Sequelize.DATE,
             field: 'created_at',

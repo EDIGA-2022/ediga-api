@@ -1,9 +1,13 @@
 const db = require("../db.js");
-const User = db.User;
 const Observation = db.Observation;
+const jwt = require('jsonwebtoken');
 
 async function createObservation(req, res) {
-    const userId = req.params.userId;
+    const jwtSecretKey = process.env.JWT_SECRET_KEY;
+    const token = req.headers.authorization.replace("Bearer ", "");
+    const data = jwt.verify(token, jwtSecretKey);
+
+    var userId = req.body.userId;
     var title = req.body.title;
     var type = req.body.type;
     var likes = req.body.likes;
@@ -14,7 +18,7 @@ async function createObservation(req, res) {
     var text = req.body.observation; //text
     var photoId = req.body.photoId;
     var edigaUserPhoto = req.body.edigaUserPhoto;
-    if (userId == null){
+    if (userId == null) {
         return res.status(400).json({ message: "El usuario no puede ser null" })
     }
     const newObservation = await Observation.create({
@@ -29,9 +33,10 @@ async function createObservation(req, res) {
         text,
         photoId,
         edigaUserPhoto,
+        createdBy: data.id,
     });
     console.log("New observation created. Id: ", newObservation.userId);
-    res.status(200).json({message: "Success"});
+    res.status(200).json({ message: "Success" });
 }
 
 module.exports = createObservation;
