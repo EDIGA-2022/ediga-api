@@ -71,11 +71,11 @@ db.User.hasMany(db.DiaryEntry, { as: 'entries', foreignKey: { name: 'userId', fi
 db.DiaryEntry.belongsTo(db.User, { as: 'user', foreignKey: { name: 'userId', field: 'UserId' } });
 
 
-db.EdigaUser.hasMany(db.DiaryEntry, { as: 'createdEntries', foreignKey: { name: 'edigaUserId', field: 'createdBy' } });
-db.DiaryEntry.belongsTo(db.EdigaUser, { as: 'edigaUser', foreignKey: { name: 'createdBy', field: 'edigaUserId' } });
-
-db.EdigaUser.hasMany(db.Observation, { as: 'createdObservation', foreignKey: { name: 'edigaUserId', field: 'createdBy' } });
-db.Observation.belongsTo(db.EdigaUser, { as: 'edigaUser', foreignKey: { name: 'createdBy', field: 'edigaUserId' } });
+// db.EdigaUser.hasMany(db.DiaryEntry, { as: 'createdEntries', foreignKey: { name: 'edigaUserId', field: 'createdBy' } });
+db.DiaryEntry.belongsTo(db.EdigaUser, { as: 'edigaUser', foreignKey: { name: 'edigaUserId', field: 'created_by' } });
+//created_by o breatedBy / edigaUserId o ediga_user_id
+// db.EdigaUser.hasMany(db.Observation, { as: 'createdObservation', foreignKey: { name: 'edigaUserId', field: 'createdBy' } });
+db.Observation.belongsTo(db.EdigaUser, { as: 'edigaUser', foreignKey: { name: 'edigaUserId', field: 'created_by' } });
 
 // db.customers = require("../models/customer.model.js")(sequelize, Sequelize);
 // db.products = require("../models/product.model.js")(sequelize, Sequelize);

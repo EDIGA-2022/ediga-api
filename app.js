@@ -50,7 +50,7 @@ const cors = require('cors');
 
 const corsOptions = {
   // Autoriza a todos los dominios a pegarle al back
-  origin: ['https://ediga.azurewebsites.net/', 'http://localhost:3000'],
+  origin: ['https://ediga.azurewebsites.net', 'http://localhost:3000'],
   credentials: true,
   // Permite que se usen esos headers en las requests de otros dominios
   allowedHeaders: ['Content-Type', 'Authorization'],
