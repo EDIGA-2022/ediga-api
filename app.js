@@ -29,6 +29,7 @@ const createObservation = require('./src/endpoints/createObservation');
 const getUserObservations = require('./src/endpoints/getUserObservations');
 const getObservation = require('./src/endpoints/getObservation');
 const editObservation = require('./src/endpoints/editObservation');
+const deleteObservation = require('./src/endpoints/deleteObservation');
 
 //Diary entry
 const createDiaryEntry = require('./src/endpoints/createDiaryEntry');
@@ -102,6 +103,9 @@ app.post('/api/observations/:userId', createObservation);
 
 // get all observations of a user with userId
 app.get('/api/observations/user/:userId', getUserObservations);
+
+// delete observation
+app.delete('/api/observation/:observationId', deleteObservation);
 
 //create new diary entry
 app.post('/api/diaryEntry', createDiaryEntry);
