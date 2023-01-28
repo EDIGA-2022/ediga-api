@@ -51,7 +51,11 @@ const cors = require('cors');
 
 const corsOptions = {
   // Autoriza a todos los dominios a pegarle al back
-  origin: ['https://portalediga.azurewebsites.net', 'http://localhost:3000'],
+  origin: [
+    'https://portalediga.azurewebsites.net',
+    'http://localhost:3000',
+    'https://d1ou9jlu3s3ee0.cloudfront.net',
+  ],
   credentials: true,
   // Permite que se usen esos headers en las requests de otros dominios
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -139,5 +143,5 @@ app.post('/api/editEdigaUser', editEdigaUser);
 
 
 app.listen(port, () => {
-    console.log(`API running on http://localhost:${port}`);
+  console.log(`API running on http://localhost:${port}`);
 });
