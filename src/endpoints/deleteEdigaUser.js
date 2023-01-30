@@ -7,7 +7,7 @@ async function deleteEdigaUser(req, res) {
     const count = await EdigaUser.destroy({ where: { edigaUserId: userId } });
     if (count > 0) {
       res.status(200).json({
-        message: "User successfully deleted",
+        message: "Usuario eliminado exitosamente",
         success: true
       })
     } else {

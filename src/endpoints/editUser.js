@@ -55,8 +55,7 @@ async function editUser(req, res) {
       where: { userId: userId },
     }
   );
-    console.log("User updated. Id: ", userId);
-    res.status(200).json({message: "Success"});
+    res.status(200).json({message: "Usuario editado exitosamente"});
 }
 
 module.exports = editUser;

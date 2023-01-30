@@ -13,7 +13,7 @@ async function editDiaryEntry(req, res) {
       where: { diaryEntryId: diaryEntryId },
     }
   );
-    res.status(200).json({message: "Success"});
+    res.status(200).json({message: "Entrada de campo editada exitosamente"});
 }
 
 module.exports = editDiaryEntry;
