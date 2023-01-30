@@ -48,7 +48,7 @@ async function register(req, res) {
           }
         );
         res.status(200).json({
-          message: "User successfully created",
+          message: "Usuario creado exitosamente",
           user: {
             edigaUserId: user.edigaUserId,
             email: user.email,

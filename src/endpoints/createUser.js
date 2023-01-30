@@ -42,8 +42,7 @@ async function createUser(req, res) {
         answer3Field,
         alias
     });
-    console.log("New user created. Id: ", newUserRegisterInfo.userId);
-    res.status(200).json({message: "Success"});
+    res.status(200).json({message: "Sujeto creado exitosamente"});
 }
 
 module.exports = createUser;

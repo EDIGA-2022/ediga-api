@@ -35,8 +35,7 @@ async function createObservation(req, res) {
         edigaUserPhoto,
         createdBy: data.id,
     });
-    console.log("New observation created. Id: ", newObservation.userId);
-    res.status(200).json({ message: "Success" });
+    res.status(200).json({ message: "Observación creada exitosamente" });
 }
 
 module.exports = createObservation;

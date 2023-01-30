@@ -17,8 +17,7 @@ async function createDiaryEntry(req, res) {
         text,
         createdBy: data.id,
     });
-    console.log("New entry created. Id: ", newEntry.userId);
-    res.status(200).json({message: "Success"});
+    res.status(200).json({message: "Diario de campo creado exitosamente"});
 }
 
 module.exports = createDiaryEntry;

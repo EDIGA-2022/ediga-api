@@ -49,7 +49,7 @@ async function editObservation(req, res) {
     );
   }
 
-  res.status(200).json({ message: "Observación editada correctamente" });
+  res.status(200).json({ message: "Observación editada exitosamente" });
 }
 
 module.exports = editObservation;
