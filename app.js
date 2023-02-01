@@ -21,6 +21,7 @@ const getUserPhotos = require('./src/endpoints/getUserPhotos');
 const createUser = require('./src/endpoints/createUser');
 const getUserProfile = require('./src/endpoints/getUserProfile');
 const editUser = require('./src/endpoints/editUser');
+const deleteUser = require('./src/endpoints/deleteUser');
 const exportPhotos = require('./src/endpoints/exportPhotos');
 
 //Observation
@@ -85,6 +86,9 @@ app.post('/api/createUser', createUser);
 
 // edit participant
 app.put('/api/editUser', editUser);
+
+// delete participant
+app.delete('/api/user/:userId', deleteUser);
 
 // get user
 app.get('/api/user/:userId', getUser);
