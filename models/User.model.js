@@ -10,6 +10,18 @@ module.exports = (sequelize, Sequelize) => {
         country: {
             type: Sequelize.STRING,
         },
+        createdAt: {
+            type: Sequelize.DATE,
+            field: 'created_at',
+        },
+        updatedAt: {
+            type: Sequelize.DATE,
+            field: 'edited_at',
+        },
+        deletedAt: {
+            type: Sequelize.DATE,
+            field: 'deleted_at',
+        }
     },
         {
             freezeTableName: true,
