@@ -1,5 +1,5 @@
 var { imageToBase64, base64ToImage } = require("base64-2-img");
-const db = require("../db.js");
+const db = require("../../db.js");
 const Photo = db.Photo;
 
 // Exports all photos stored in database to local folder in system. 

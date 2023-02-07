@@ -1,4 +1,4 @@
-const db = require("../db.js");
+const db = require("../../db.js");
 const User = db.User;
 const UserRegisterInfo = db.UserRegisterInfo;
 

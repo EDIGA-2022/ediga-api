@@ -7,38 +7,37 @@ const passwordReset = require('./src/endpoints/auth/passwordReset');
 const authMiddleware = require('./src/authMiddleware');
 
 // Ediga Users
-const deleteEdigaUser = require('./src/endpoints/deleteEdigaUser');
-const setAdminEdiga = require('./src/endpoints/setAdminEdiga');
-const getEdigaUsers = require('./src/endpoints/getEdigaUsers');
-const getEdigaUser = require('./src/endpoints/getEdigaUser');
-const editEdigaUser = require('./src/endpoints/editEdigaUser');
-
+const deleteEdigaUser = require('./src/endpoints/edigaUsers/deleteEdigaUser');
+const setAdminEdiga = require('./src/endpoints/edigaUsers/setAdminEdiga');
+const getEdigaUsers = require('./src/endpoints/edigaUsers/getEdigaUsers');
+const getEdigaUser = require('./src/endpoints/edigaUsers/getEdigaUser');
+const editEdigaUser = require('./src/endpoints/edigaUsers/editEdigaUser');
 
 //Users
-const getUsers = require('./src/endpoints/getUsers');
-const getUser = require('./src/endpoints/getUser');
-const getUserPhotos = require('./src/endpoints/getUserPhotos');
-const createUser = require('./src/endpoints/createUser');
-const getUserProfile = require('./src/endpoints/getUserProfile');
-const editUser = require('./src/endpoints/editUser');
-const deleteUser = require('./src/endpoints/deleteUser');
-const exportPhotos = require('./src/endpoints/exportPhotos');
+const getUsers = require('./src/endpoints/users/getUsers');
+const getUser = require('./src/endpoints/users/getUser');
+const getUserPhotos = require('./src/endpoints/users/getUserPhotos');
+const createUser = require('./src/endpoints/users/createUser');
+const getUserProfile = require('./src/endpoints/users/getUserProfile');
+const editUser = require('./src/endpoints/users/editUser');
+const deleteUser = require('./src/endpoints/users/deleteUser');
+const exportPhotos = require('./src/endpoints/users/exportPhotos');
+const getUserObservations = require('./src/endpoints/users/getUserObservations');
+const getUserDiaryEntries = require('./src/endpoints/users/getUserDiaryEntries');
 
 //Observation
-const createObservation = require('./src/endpoints/createObservation');
-const getUserObservations = require('./src/endpoints/getUserObservations');
-const getObservation = require('./src/endpoints/getObservation');
-const editObservation = require('./src/endpoints/editObservation');
-const deleteObservation = require('./src/endpoints/deleteObservation');
+const createObservation = require('./src/endpoints/observations/createObservation');
+const getObservation = require('./src/endpoints/observations/getObservation');
+const editObservation = require('./src/endpoints/observations/editObservation');
+const deleteObservation = require('./src/endpoints/observations/deleteObservation');
 
 //Diary entry
-const createDiaryEntry = require('./src/endpoints/createDiaryEntry');
-const editDiaryEntry = require('./src/endpoints/editDiaryEntry');
-const getDiaryEntry = require('./src/endpoints/getDiaryEntry');
-const getUserDiaryEntries = require('./src/endpoints/getUserDiaryEntries');
+const createDiaryEntry = require('./src/endpoints/diaryEntries/createDiaryEntry');
+const editDiaryEntry = require('./src/endpoints/diaryEntries/editDiaryEntry');
+const getDiaryEntry = require('./src/endpoints/diaryEntries/getDiaryEntry');
 
 //Metrics
-const getMetrics = require('./src/endpoints/getMetrics');
+const getMetrics = require('./src/endpoints/metrics/getMetrics');
 
 // import express
 const express = require('express');
@@ -149,3 +148,5 @@ app.post('/api/editEdigaUser', editEdigaUser);
 app.listen(port, () => {
   console.log(`API running on http://localhost:${port}`);
 });
+
+module.exports = app;

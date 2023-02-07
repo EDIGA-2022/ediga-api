@@ -1,4 +1,4 @@
-const db = require("../db.js");
+const db = require("../../db.js");
 const EdigaUser = db.EdigaUser;
 const { Op } = require("sequelize");
 

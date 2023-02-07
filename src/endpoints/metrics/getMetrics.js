@@ -1,6 +1,6 @@
-const { sequelize, } = require("../db.js");
-const db = require("../db.js");
-const { getCountry, getGender, getTextAnswer } = require("../utils.js");
+const { sequelize, } = require("../../db.js");
+const db = require("../../db.js");
+const { getCountry, getGender, getTextAnswer } = require("../../utils.js");
 const User = db.User;
 const DailyUsage = db.DailyUsage;
 const MiddleFormAnswer = db.MiddleFormAnswers;

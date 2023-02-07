@@ -1,7 +1,7 @@
-const db = require("../db.js");
+const db = require("../../db.js");
 const Observation = db.Observation;
 const Photo = db.Photo;
-const { getTextAnswer } = require('../utils.js')
+const { getTextAnswer } = require('../../utils.js')
 
 async function getObsevation(req, res) {
     const observationId = req.params.observationId;

@@ -1,9 +1,9 @@
-const db = require("../db.js");
+const db = require("../../db.js");
 const UserRegisterInfo = db.UserRegisterInfo;
 const User = db.User;
 const MiddleFormAnswers = db.MiddleFormAnswers;
 const EndFormAnswers = db.EndFormAnswers;
-const { getCountry, getGender, getTextAnswer } = require("../utils.js");
+const { getCountry, getGender, getTextAnswer } = require("../../utils.js");
 
 
 function userInfoTransformer(users) {

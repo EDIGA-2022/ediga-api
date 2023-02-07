@@ -1,4 +1,4 @@
-const db = require("../db.js");
+const db = require("../../db.js");
 const Observation = db.Observation;
 const jwt = require('jsonwebtoken');
 
