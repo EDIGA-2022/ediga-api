@@ -1,4 +1,4 @@
-const db = require("../db.js");
+const db = require("../../db.js");
 const DiaryEntry = db.DiaryEntry;
 const jwt = require('jsonwebtoken');
 
@@ -21,6 +21,3 @@ async function createDiaryEntry(req, res) {
 }
 
 module.exports = createDiaryEntry;
-
-
-

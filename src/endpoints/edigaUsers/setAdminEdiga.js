@@ -1,4 +1,4 @@
-const { EdigaUser } = require("../db");
+const { EdigaUser } = require("../../db");
 
 async function setAdminEdiga(req, res) {
   const { userId, admin } = req.body;

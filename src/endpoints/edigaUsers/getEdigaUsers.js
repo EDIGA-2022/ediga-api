@@ -1,4 +1,4 @@
-const { EdigaUser } = require("../db");
+const { EdigaUser } = require("../../db");
 
 async function getEdigaUsers(req, res) {
   const { userId } = req.body;

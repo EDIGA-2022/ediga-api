@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { getGender, getTextAnswer } = require('../utils.js')
+const { getGender, getTextAnswer } = require('../../utils.js')
 
 function transformer(user) {
     const u = {
@@ -21,6 +21,7 @@ function transformer(user) {
         yearsOld: user.userRegisterInfo.answer2,
         investigated: user.userRegisterInfo.answer3 === 'No' ? false : true,
         instagramProfile: user.userRegisterInfo.answer3Field,
+        alias: user.userRegisterInfo.alias,
         middleFormAnswers: {
             answer1: user.middleFormAnswers ? getTextAnswer(user.middleFormAnswers.answer1) : null,
             answer2: user.middleFormAnswers ? getTextAnswer(user.middleFormAnswers.answer2) : null,
