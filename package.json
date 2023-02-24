@@ -3,7 +3,8 @@
   "scripts": {
     "start": "node app.js",
     "migrate": "npx sequelize-cli db:migrate",
-    "create-migration": "npx sequelize-cli migration:generate --name"
+    "create-migration": "npx sequelize-cli migration:generate --name",
+    "test": "NODE_ENV=test mocha config/testSetup.js 'src/**/*.spec.js'"
   },
   "dependencies": {
     "base64-2-img": "^1.0.0",
@@ -16,9 +17,13 @@
     "jsonwebtoken": "^8.5.1",
     "mariadb": "^3.0.1",
     "moment": "^2.29.4",
-    "sequelize": "^6.21.4"
+    "sequelize": "^6.21.4",
+    "winston": "^3.8.2"
   },
   "devDependencies": {
-    "sequelize-cli": "^6.4.1"
+    "chai": "*",
+    "mocha": "*",
+    "sequelize-cli": "^6.4.1",
+    "supertest": "^6.3.3"
   }
 }

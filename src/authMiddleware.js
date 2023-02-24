@@ -3,7 +3,7 @@ const authenticate = require("./endpoints/auth/authenticate");
 
 module.exports = (req, res, next) => {
   try {
-    if (req.path == '/api/login') {
+    if (req.path == '/api/login' || process.env.NODE_ENV === 'test') {
       return next();
     }
     authenticate.isLoggedIn(req).then(user => {
