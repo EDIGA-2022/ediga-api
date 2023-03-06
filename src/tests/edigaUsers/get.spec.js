@@ -10,28 +10,28 @@ const id = '00000000-0000-0000-0000-000000000000';
 
 describe('Testing get ediga user', function () {
 	beforeEach(async () => {
-        const edigaUser = await EdigaUser.create({
-            edigaUserId: id,
-            email: 'mail@mailinator.com',
-            name: 'test name',
-            password: 'password hash',
-            firstLogin: false,
-            isAdmin: false,
-            country: 'UY',
-          })
+		const edigaUser = await EdigaUser.create({
+			edigaUserId: id,
+			email: 'mail@mailinator.com',
+			name: 'test name',
+			password: 'password hash',
+			firstLogin: false,
+			isAdmin: false,
+			country: 'UY',
+		});
 	});
 	it('should return ediga user', async function () {
-		let response = await request(app)
-			.get(`${url}${id}`)
-		console.log("response", JSON.stringify(response));
+		const response = await request(app)
+			.get(`${url}${id}`);
+		const user = JSON.parse(response.text).user;
 		testHelpers.checkStatusCode(response, 200);
-		expect(response.user.email).to.be.equal('mail@mailinator.com');
-		expect(response.user.name).to.be.equal('test name');
-		expect(response.user.password).to.be.equal('password hash');
-		expect(response.user.isAdmin).to.be.equal(false);
-		expect(response.user.country).to.be.equal('UY');
-		// expect(response.body).to.haveOwnProperty('count');
-		// expect(response.body.count).to.be.equal(1);
-		// expect(response.body.data.length).to.be.equal(1);
+		expect(user.email).to.be.equal('mail@mailinator.com');
+		expect(user.name).to.be.equal('test name');
+		expect(user.isAdmin).to.be.equal(false);
+		expect(user.country).to.be.equal('UY');
+		expect(user.firstLogIn).to.be.equal(true);
+		// expect(body).to.haveOwnProperty('count');
+		// expect(body.count).to.be.equal(1);
+		// expect(body.data.length).to.be.equal(1);
 	});
 })

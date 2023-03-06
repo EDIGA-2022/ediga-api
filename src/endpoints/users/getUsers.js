@@ -50,7 +50,7 @@ async function getUsers(req, res) {
           }
       ],
     });
-    console.log(JSON.stringify(usersInfo));
+    // console.log(JSON.stringify(usersInfo));
     res.status(200).json(userInfoTransformer(usersInfo));
 }
 

@@ -18,7 +18,7 @@ async function login(req, res) {
 		if (!user) {
 			res.status(400).json({
 				error: "Login unsuccessful",
-				message: "User not found",
+				message: "Usuario no encontrado",
 			})
 		} else {
 			// comparing given password with hashed password
