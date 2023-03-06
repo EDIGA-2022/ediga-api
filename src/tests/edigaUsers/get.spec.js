@@ -21,8 +21,15 @@ describe('Testing get ediga user', function () {
 		});
 	});
 	it('should return ediga user', async function () {
+		const loginAns = await request(app)
+			.post(`/api/login`)
+			.send({ email: "salberti@mailinator.com", password: "1234567" });
+		const textLogin = JSON.parse(loginAns.text);
+		const token = textLogin.token;
+
 		const response = await request(app)
-			.get(`${url}${id}`);
+			.get(`${url}${id}`)
+			.set('Authorization', `Bearer ${token}`);
 		const user = JSON.parse(response.text).user;
 		testHelpers.checkStatusCode(response, 200);
 		expect(user.email).to.be.equal('mail@mailinator.com');

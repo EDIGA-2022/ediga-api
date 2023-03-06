@@ -23,23 +23,22 @@ describe('Testing get ediga user', function () {
         }
     });
     it('should return all 9 ediga users', async function () {
-        const loginans = await request(app)
+        const loginAns = await request(app)
             .post(`/api/login`)
             .send({ email: "salberti@mailinator.com", password: "1234567" });
-        const textLogin = JSON.parse(loginans.text);
+        const textLogin = JSON.parse(loginAns.text);
         const token = textLogin.token;
 
         let response = await request(app)
             .get(`${url}`)
-            .set('Authorization', `Device ${token}`);
+            .set('Authorization', `Bearer ${token}`);
         testHelpers.checkStatusCode(response, 200);
         const users = JSON.parse(response.text).users;
-        console.log("users", users)
             // expect(response.user.email).to.be.equal('mail@mailinator.com');
             // expect(response.user.name).to.be.equal('test name');
             // expect(response.user.password).to.be.equal('password hash');
             // expect(response.user.isAdmin).to.be.equal
-            (false);
+            // (false);
         // expect(response.user.country).to.be.equal('UY');
         // expect(response.body).to.haveOwnProperty('count');
         // expect(response.body.count).to.be.equal(1);
@@ -48,7 +47,7 @@ describe('Testing get ediga user', function () {
     it('should return unauthorized', async function () {
         let response = await request(app)
             .get(`${url}`);
-        testHelpers.checkStatusCode(response, 403);
+        testHelpers.checkStatusCode(response, 401);
         // const users = JSON.parse(response.text).users;
         // console.log("users", users)
         // expect(response.user.email).to.be.equal('mail@mailinator.com');
