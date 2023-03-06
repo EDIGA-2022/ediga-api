@@ -7,20 +7,22 @@ let server = require('../../../app');
 const testHelpers = require('../testHelpers');
 const db = require("../../db.js");
 const DiaryEntry = db.DiaryEntry;
-const url = '/api/diaryEntry/';
+const url = '/api/diaryEntry';
 let should = chai.should();
 
 chai.use(chaiHttp);
 
-describe('Should get a diaryEntry', () => {
   describe('/GET diaryEntry', () => {
-      it('it should GET the diaryEntries', (done) => {
+      it('Should get a diaryEntry', async function () {
+        const loginans = await request(server)
+            .post(`/api/login`)
+            .send({ email: "salberti@mailinator.com", password: "1234567" });
+        const textLogin = JSON.parse(loginans.text);
+        const token = textLogin.token;
             chai.request(server)
-            .get('/api/diaryEntry/d0838052-0da0-495a-9ae4-99d5ea21e511')
+            .get(`${url}/34df8e2e-aba6-4197-be9b-7804e7c5cbe9`).set('Authorization', `Bearer ${token}`)
             .end((err, res) => {
                   res.should.have.status(200);
-              done();
             });
       });
   });
-});

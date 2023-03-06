@@ -7,12 +7,11 @@ let server = require('../../../app');
 const testHelpers = require('../testHelpers');
 const db = require("../../db.js");
 const DiaryEntry = db.DiaryEntry;
-const url = '/api/diaryEntry/';
+const url = '/api/diaryEntry';
 let should = chai.should();
 
 chai.use(chaiHttp);
 
-describe('Should create a diaryEntry', () => {
   describe('/POST diaryEntry', () => {
       it('Should post a diaryEntry', async function () {
         const loginans = await request(server)
@@ -25,12 +24,10 @@ describe('Should create a diaryEntry', () => {
               entry: "<p>This is a test</p>"
           }
             chai.request(server)
-            .post('/api/diaryEntry').set('Authorization', `Bearer ${token}`)
+            .post(`${url}`).set('Authorization', `Bearer ${token}`)
             .send(diaryEntry)
             .end((err, res) => {
                   res.should.have.status(200);
-              done();
             });
       });
   });
-});
