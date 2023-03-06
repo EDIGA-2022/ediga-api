@@ -14,7 +14,7 @@ chai.use(chaiHttp);
 
 describe('Should get a diaryEntry', () => {
   describe('/GET diaryEntry', () => {
-      it('it should GET all the diaryEntries', (done) => {
+      it('it should GET the diaryEntries', (done) => {
             chai.request(server)
             .get('/api/diaryEntry/d0838052-0da0-495a-9ae4-99d5ea21e511')
             .end((err, res) => {
