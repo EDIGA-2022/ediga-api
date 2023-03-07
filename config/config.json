@@ -4,27 +4,31 @@
     "password": "root",
     "database": "Ediga",
     "host": "127.0.0.1",
-    "dialect": "mariadb"
+    "dialect": "mariadb",
+    "logging": false
   },
   "development": {
     "username": "root",
     "password": "root",
     "database": "Ediga",
     "host": "127.0.0.1",
-    "dialect": "mariadb"
+    "dialect": "mariadb",
+    "logging": false
   },
   "test": {
     "username": "root",
     "password": "root",
     "database": "Ediga",
     "host": "127.0.0.1",
-    "dialect": "mariadb"
+    "dialect": "mariadb",
+    "logging": false
   },
   "production": {
     "username": "root",
     "password": "root",
     "database": "Ediga",
     "host": "127.0.0.1",
-    "dialect": "mariadb"
+    "dialect": "mariadb",
+    "logging": false
   }
 }

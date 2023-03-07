@@ -6,17 +6,17 @@ let chaiHttp = require('chai-http');
 let server = require('../../../app');
 const testHelpers = require('../testHelpers');
 const db = require("../../db.js");
-const DiaryEntry = db.DiaryEntry;
+const Observation = db.Observation;
 const EdigaUser = db.EdigaUser;
 const User = db.User;
-const url = '/api/diaryEntry';
+const url = '/api/observation';
 let should = chai.should();
 
-const id = '00000000-0000-0000-0000-000000000000';
+const id = '00000000-0000-0000-0000-000000000007';
 
 chai.use(chaiHttp);
 
-  describe('/POST diaryEntry', () => {
+  describe('/GET observation', () => {
     beforeEach(async () => {
       const edigaUser = await EdigaUser.create({
         edigaUserId: id,
@@ -31,25 +31,35 @@ chai.use(chaiHttp);
         userId: id,
         country: 'UY'
       });
+      const observation = await Observation.create({
+        observationId: id,
+        userId: id,
+        text: "<p>This is a test</p>",
+        createdBy: id,
+        createdAt: "2022-10-16 00:00:00.0",
+        updatedAt: "2022-10-16 00:00:00.0",
+        title: "this is a test",
+        type: "R",
+        likes: 32,
+        comments: 23,
+        music: "This is a music test",
+        hasMusic: true,
+        publicationDate: "2022-10-16 00:00:00.0",
+      });
     });
     afterEach(async () => {
-      await DiaryEntry.destroy({ where: { diaryEntryId : `${id}`} });
+      await Observation.destroy({ where: { observationId : `${id}`}, force: true });
       await EdigaUser.destroy({ where: { edigaUserId : `${id}`} });
-      await User.destroy({ where: { userId : `${id}`} , force: true});
+      await User.destroy({ where: { userId : `${id}`}, force: true});
     })
-      it('Should post a diaryEntry', async function () {
+      it('Should delete an observation', async function () {
         const loginans = await request(server)
             .post(`/api/login`)
             .send({ email: "mail@mailinator.com", password: "1234567" });
         const textLogin = JSON.parse(loginans.text);
         const token = textLogin.token;
-          let diaryEntry = {
-              userId: id,
-              entry: "<p>This is a test</p>"
-          }
-          const ans = await request(server)
-            .post(`${url}`).set('Authorization', `Bearer ${token}`)
-            .send(diaryEntry);
-            ans.should.have.status(200);
+        const ans = await request(server)
+            .get(`${url}/${id}`).set('Authorization', `Bearer ${token}`);
+        testHelpers.checkStatusCode(ans, 200);
       });
   });

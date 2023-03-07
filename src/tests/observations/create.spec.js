@@ -6,17 +6,17 @@ let chaiHttp = require('chai-http');
 let server = require('../../../app');
 const testHelpers = require('../testHelpers');
 const db = require("../../db.js");
-const DiaryEntry = db.DiaryEntry;
+const Observation = db.Observation;
 const EdigaUser = db.EdigaUser;
 const User = db.User;
-const url = '/api/diaryEntry';
+const url = '/api/observations';
 let should = chai.should();
 
-const id = '00000000-0000-0000-0000-000000000000';
+const id = '00000000-0000-0000-0000-000000000004';
 
 chai.use(chaiHttp);
 
-  describe('/POST diaryEntry', () => {
+  describe('/POST observation', () => {
     beforeEach(async () => {
       const edigaUser = await EdigaUser.create({
         edigaUserId: id,
@@ -33,23 +33,35 @@ chai.use(chaiHttp);
       });
     });
     afterEach(async () => {
-      await DiaryEntry.destroy({ where: { diaryEntryId : `${id}`} });
+      await Observation.destroy({ where: { observationId : `${id}`}, force: true });
       await EdigaUser.destroy({ where: { edigaUserId : `${id}`} });
       await User.destroy({ where: { userId : `${id}`} , force: true});
     })
-      it('Should post a diaryEntry', async function () {
+      it('Should post an observation', async function () {
         const loginans = await request(server)
             .post(`/api/login`)
             .send({ email: "mail@mailinator.com", password: "1234567" });
         const textLogin = JSON.parse(loginans.text);
         const token = textLogin.token;
-          let diaryEntry = {
-              userId: id,
-              entry: "<p>This is a test</p>"
+          let observation = {
+                userId: id,
+                title: "This is a test",
+                type: "R",
+                likes: 32,
+                comments: 23,
+                music: "this is a music test",
+                date: "2022-10-16 00:00:00.0",
+                hasMusic: true,
+                observation: "<p>This is a test</p>",
+                photoId: null,
+                edigaUserPhoto: null,
+                createdBy: id
+
           }
           const ans = await request(server)
-            .post(`${url}`).set('Authorization', `Bearer ${token}`)
-            .send(diaryEntry);
+            .post(`${url}/${id}`).set('Authorization', `Bearer ${token}`)
+            .send(observation);
             ans.should.have.status(200);
+            expect((JSON.parse(ans.text)).message).to.be.equal('Observación creada exitosamente');
       });
   });
