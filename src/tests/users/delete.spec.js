@@ -6,17 +6,17 @@ let chaiHttp = require('chai-http');
 let server = require('../../../app');
 const testHelpers = require('../testHelpers');
 const db = require("../../db.js");
-const Observation = db.Observation;
+const UserRegisterInfo = db.UserRegisterInfo;
 const EdigaUser = db.EdigaUser;
 const User = db.User;
-const url = '/api/observations';
+const url = '/api/user';
 let should = chai.should();
 
-const id = '00000000-0000-0000-0000-000000000004';
+const id = '00000000-0000-0000-0000-000000000010';
 
 chai.use(chaiHttp);
 
-  describe('/POST observation', () => {
+  describe('/DELETE user', () => {
     beforeEach(async () => {
       const edigaUser = await EdigaUser.create({
         edigaUserId: id,
@@ -31,36 +31,32 @@ chai.use(chaiHttp);
         userId: id,
         country: 'UY'
       });
+      const userRegisterInfo = await UserRegisterInfo.create({
+        userId: id,
+        completedAt: "2022-10-16 00:00:00.0",
+        answer1: 2,
+        answer2: 15,
+        answer1Field: "Hombres",
+        answer3: "No",
+        answer3Field: null,
+        alias: "Testing",
+        createdAt: "2022-10-16 00:00:00.0",
+      });
     });
     afterEach(async () => {
-      await Observation.destroy({ where: { userId : `${id}`}, force: true });
+      await UserRegisterInfo.destroy({ where: { userId : `${id}`}, force: true });
       await EdigaUser.destroy({ where: { edigaUserId : `${id}`} });
       await User.destroy({ where: { userId : `${id}`} , force: true});
     })
-      it('Should post an observation', async function () {
+      it('Should delete a user', async function () {
         const loginans = await request(server)
             .post(`/api/login`)
             .send({ email: "mail@mailinator.com", password: "1234567" });
         const textLogin = JSON.parse(loginans.text);
         const token = textLogin.token;
-          let observation = {
-                userId: id,
-                title: "This is a test",
-                type: "R",
-                likes: 32,
-                comments: 23,
-                music: "this is a music test",
-                date: "2022-10-16 00:00:00.0",
-                hasMusic: true,
-                observation: "<p>This is a test</p>",
-                photoId: null,
-                edigaUserPhoto: null,
-                createdBy: id
-          }
-          const ans = await request(server)
-            .post(`${url}/${id}`).set('Authorization', `Bearer ${token}`)
-            .send(observation);
+        const ans = await request(server)
+            .delete(`${url}/${id}`).set('Authorization', `Bearer ${token}`);
             ans.should.have.status(200);
-            expect((JSON.parse(ans.text)).message).to.be.equal('Observación creada exitosamente');
+            expect((JSON.parse(ans.text)).message).to.be.equal('Sujeto eliminado correctamente');
       });
   });

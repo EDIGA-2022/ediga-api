@@ -9,14 +9,15 @@ const db = require("../../db.js");
 const Observation = db.Observation;
 const EdigaUser = db.EdigaUser;
 const User = db.User;
-const url = '/api/observation';
+const url = '/api/observations/user';
 let should = chai.should();
 
-const id = '00000000-0000-0000-0000-000000000007';
+const id = '00000000-0000-0000-0000-000000000013';
+const id1 = '00000000-0000-0000-0000-000000000014';
 
 chai.use(chaiHttp);
 
-  describe('/GET observation', () => {
+  describe('/GET user observations', () => {
     beforeEach(async () => {
       const edigaUser = await EdigaUser.create({
         edigaUserId: id,
@@ -31,7 +32,7 @@ chai.use(chaiHttp);
         userId: id,
         country: 'UY'
       });
-      const observation = await Observation.create({
+      const observation1 = await Observation.create({
         observationId: id,
         userId: id,
         text: "<p>This is a test</p>",
@@ -46,13 +47,29 @@ chai.use(chaiHttp);
         hasMusic: true,
         publicationDate: "2022-10-16 00:00:00.0",
       });
+      const observation2 = await Observation.create({
+        observationId: id1,
+        userId: id,
+        text: "<p>This is another test</p>",
+        createdBy: id,
+        createdAt: "2022-10-16 00:00:00.0",
+        updatedAt: "2022-10-16 00:00:00.0",
+        title: "this is a test",
+        type: "R",
+        likes: 32,
+        comments: 23,
+        music: "This is a music test",
+        hasMusic: true,
+        publicationDate: "2022-10-16 00:00:00.0",
+      });
     });
     afterEach(async () => {
       await Observation.destroy({ where: { observationId : `${id}`}, force: true });
+      await Observation.destroy({ where: { observationId : `${id1}`}, force: true });
       await EdigaUser.destroy({ where: { edigaUserId : `${id}`} });
-      await User.destroy({ where: { userId : `${id}`}, force: true});
+      await User.destroy({ where: { userId : `${id}`} , force: true});
     })
-      it('Should delete an observation', async function () {
+      it('Should get the observations for a user', async function () {
         const loginans = await request(server)
             .post(`/api/login`)
             .send({ email: "mail@mailinator.com", password: "1234567" });
@@ -60,9 +77,8 @@ chai.use(chaiHttp);
         const token = textLogin.token;
         const ans = await request(server)
             .get(`${url}/${id}`).set('Authorization', `Bearer ${token}`);
-        testHelpers.checkStatusCode(ans, 200);
-        const observation = JSON.parse(ans.text);
-        expect(observation.observationId).to.be.equal(id);
-        expect(observation.observation).to.be.equal("<p>This is a test</p>");
+            ans.should.have.status(200);
+            ans.body.should.be.a('array');
+            ans.body.length.should.be.eql(2);
       });
   });

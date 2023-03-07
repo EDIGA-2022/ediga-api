@@ -6,17 +6,18 @@ let chaiHttp = require('chai-http');
 let server = require('../../../app');
 const testHelpers = require('../testHelpers');
 const db = require("../../db.js");
-const Observation = db.Observation;
+const DiaryEntry = db.DiaryEntry;
 const EdigaUser = db.EdigaUser;
 const User = db.User;
-const url = '/api/observations';
+const url = '/api/diaryEntry/user';
 let should = chai.should();
 
-const id = '00000000-0000-0000-0000-000000000004';
+const id = '00000000-0000-0000-0000-000000000011';
+const id1 = '00000000-0000-0000-0000-000000000012';
 
 chai.use(chaiHttp);
 
-  describe('/POST observation', () => {
+  describe('/GET user diaryEntries', () => {
     beforeEach(async () => {
       const edigaUser = await EdigaUser.create({
         edigaUserId: id,
@@ -31,36 +32,37 @@ chai.use(chaiHttp);
         userId: id,
         country: 'UY'
       });
+      const diaryEntry1 = await DiaryEntry.create({
+        diaryEntryId: id,
+        userId: id,
+        text: "<p>This is a test</p>",
+        createdBy: id,
+        createdAt: "2022-10-16 00:00:00.0",
+      });
+      const diaryEntry2 = await DiaryEntry.create({
+        diaryEntryId: id1,
+        userId: id,
+        text: "<p>This is another test</p>",
+        createdBy: id,
+        createdAt: "2022-10-16 00:00:00.0",
+      });
     });
     afterEach(async () => {
-      await Observation.destroy({ where: { userId : `${id}`}, force: true });
+      await DiaryEntry.destroy({ where: { diaryEntryId : `${id}`} });
+      await DiaryEntry.destroy({ where: { diaryEntryId : `${id1}`} });
       await EdigaUser.destroy({ where: { edigaUserId : `${id}`} });
       await User.destroy({ where: { userId : `${id}`} , force: true});
     })
-      it('Should post an observation', async function () {
+      it('Should get the diaryEntries for a user', async function () {
         const loginans = await request(server)
             .post(`/api/login`)
             .send({ email: "mail@mailinator.com", password: "1234567" });
         const textLogin = JSON.parse(loginans.text);
         const token = textLogin.token;
-          let observation = {
-                userId: id,
-                title: "This is a test",
-                type: "R",
-                likes: 32,
-                comments: 23,
-                music: "this is a music test",
-                date: "2022-10-16 00:00:00.0",
-                hasMusic: true,
-                observation: "<p>This is a test</p>",
-                photoId: null,
-                edigaUserPhoto: null,
-                createdBy: id
-          }
-          const ans = await request(server)
-            .post(`${url}/${id}`).set('Authorization', `Bearer ${token}`)
-            .send(observation);
+        const ans = await request(server)
+            .get(`${url}/${id}`).set('Authorization', `Bearer ${token}`);
             ans.should.have.status(200);
-            expect((JSON.parse(ans.text)).message).to.be.equal('Observación creada exitosamente');
+            ans.body.should.be.a('array');
+            ans.body.length.should.be.eql(2);
       });
   });

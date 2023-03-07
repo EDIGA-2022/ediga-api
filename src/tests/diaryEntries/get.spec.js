@@ -52,5 +52,8 @@ chai.use(chaiHttp);
         const ans = await  request(server)
             .get(`${url}/${id}`).set('Authorization', `Bearer ${token}`);
             ans.should.have.status(200);
+            const diaryEntry = JSON.parse(ans.text);
+            expect(diaryEntry.userId).to.be.equal(id);
+            expect(diaryEntry.entry).to.be.equal("<p>This is a test</p>");
       });
   });
