@@ -12,14 +12,14 @@ const adminId = '00000000-0000-0000-0000-000000000010';
 describe('Testing get ediga user', function () {
 	beforeEach(async () => {
 		await EdigaUser.create({
-            edigaUserId: '00000000-0000-0000-0000-000000000010',
-            email: 'salberti@mailinator.com',
-            name: 'admin',
-            password: '$2a$10$vckIktUKxSSkLdwsYmze4.nx20M1/E67RF0ydh5cKI/TaT8LeRMl2',
-            firstLogin: false,
-            isAdmin: true,
-            country: 'UY',
-        });
+			edigaUserId: '00000000-0000-0000-0000-000000000010',
+			email: 'salberti@mailinator.com',
+			name: 'admin',
+			password: '$2a$10$vckIktUKxSSkLdwsYmze4.nx20M1/E67RF0ydh5cKI/TaT8LeRMl2',
+			firstLogin: false,
+			isAdmin: true,
+			country: 'UY',
+		});
 		await EdigaUser.create({
 			edigaUserId: id,
 			email: 'mail@mailinator.com',

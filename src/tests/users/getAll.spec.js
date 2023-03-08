@@ -67,7 +67,7 @@ describe('Testing get all users', function () {
         const users = JSON.parse(response.text);
         testHelpers.checkStatusCode(response, 200);
         for (let index = 1; index < 10; index++) {
-            const user = users[index-1];
+            const user = users[index - 1];
             expect(user.country).to.be.equal(index <= 5 ? 'Mexico' : index <= 7 ? 'España' : 'Uruguay');
             expect(user.yearsOld).to.be.equal(index <= 3 ? 13 :
                 index <= 5 ? 14 :
