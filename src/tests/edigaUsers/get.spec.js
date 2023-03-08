@@ -1,7 +1,7 @@
 const request = require('supertest');
 const expect = require('chai').expect;
 const app = require('../../../app');
-const testHelpers = require('../testhelpers');
+const testHelpers = require('../testHelpers');
 const db = require("../../db.js");
 const EdigaUser = db.EdigaUser;
 
