@@ -7,10 +7,20 @@ const EdigaUser = db.EdigaUser;
 
 const url = '/api/edigaUsers/';
 const id = '00000000-0000-0000-0000-000000000000';
+const adminId = '00000000-0000-0000-0000-000000000010';
 
 describe('Testing get ediga user', function () {
 	beforeEach(async () => {
-		const edigaUser = await EdigaUser.create({
+		await EdigaUser.create({
+            edigaUserId: '00000000-0000-0000-0000-000000000010',
+            email: 'salberti@mailinator.com',
+            name: 'admin',
+            password: '$2a$10$vckIktUKxSSkLdwsYmze4.nx20M1/E67RF0ydh5cKI/TaT8LeRMl2',
+            firstLogin: false,
+            isAdmin: true,
+            country: 'UY',
+        });
+		await EdigaUser.create({
 			edigaUserId: id,
 			email: 'mail@mailinator.com',
 			name: 'test name',
@@ -19,6 +29,10 @@ describe('Testing get ediga user', function () {
 			isAdmin: false,
 			country: 'UY',
 		});
+	});
+	afterEach(async () => {
+		await EdigaUser.destroy({ where: { edigaUserId: id } });
+		await EdigaUser.destroy({ where: { edigaUserId: adminId } });
 	});
 	it('should return ediga user', async function () {
 		const loginAns = await request(app)
@@ -37,8 +51,5 @@ describe('Testing get ediga user', function () {
 		expect(user.isAdmin).to.be.equal(false);
 		expect(user.country).to.be.equal('UY');
 		expect(user.firstLogIn).to.be.equal(true);
-		// expect(body).to.haveOwnProperty('count');
-		// expect(body.count).to.be.equal(1);
-		// expect(body.data.length).to.be.equal(1);
 	});
 })
