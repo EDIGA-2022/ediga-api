@@ -8,7 +8,7 @@ async function getEdigaUser(req, res) {
     res.status(200).json({ success: true, user: user });
   } else {
     res.status(404).json({
-      message: "User not found",
+      message: "Usuario no encontrado",
       success: false
     })
   }

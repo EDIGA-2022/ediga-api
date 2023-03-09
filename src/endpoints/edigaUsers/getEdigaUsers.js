@@ -1,10 +1,13 @@
 const { EdigaUser } = require("../../db");
 
 async function getEdigaUsers(req, res) {
-  const { userId } = req.body;
   const user = req.user;
   if (user?.isAdmin) {
-    const users = await EdigaUser.findAll();
+    const users = await EdigaUser.findAll({
+      order: [
+        ['name', 'ASC'],
+      ],
+    });
     if (users) {
       res.status(200).json({
         message: "Success",
