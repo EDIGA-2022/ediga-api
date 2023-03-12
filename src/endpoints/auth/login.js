@@ -10,7 +10,7 @@ async function login(req, res) {
 	// Check if email and password are provided.
 	if (!email || !password) {
 		return res.status(400).json({
-			message: "Email and password are required",
+			message: "Email o contraseña incorrectos.",
 		})
 	}
 	try {
@@ -18,7 +18,7 @@ async function login(req, res) {
 		if (!user) {
 			res.status(400).json({
 				error: "Login unsuccessful",
-				message: "Email o contraseña incorrectos",
+				message: "Email o contraseña incorrectos.",
 			})
 		} else {
 			// comparing given password with hashed password
