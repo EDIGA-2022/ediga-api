@@ -14,7 +14,8 @@ async function getUserDiaryEntries(req, res) {
                 as: 'edigaUser',
                 attributes: ['name']
             },
-        ]
+        ],
+        order: [['updatedAt', 'DESC']],
     });
     const diaryEntries = [];
     userDiaryEntries.forEach(entry => {

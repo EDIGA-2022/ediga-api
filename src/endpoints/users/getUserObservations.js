@@ -14,7 +14,8 @@ async function getUserObservations(req, res) {
                 as: 'edigaUser',
                 attributes: ['name']
             },
-        ]
+        ],
+        order: [['updatedAt', 'DESC']],
     });
     const observations = [];
     // photoObservation is true when the obs is a obs of a photo

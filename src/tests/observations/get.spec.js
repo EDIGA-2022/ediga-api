@@ -52,7 +52,7 @@ describe('/GET observation', () => {
     await EdigaUser.destroy({ where: { edigaUserId: `${id}` } });
     await User.destroy({ where: { userId: `${id}` }, force: true });
   })
-  it('Should delete an observation', async function () {
+  it('Should return an observation', async function () {
     const loginans = await request(server)
       .post(`/api/login`)
       .send({ email: "mail@mailinator.com", password: "1234567" });
