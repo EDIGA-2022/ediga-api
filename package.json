@@ -3,7 +3,8 @@
   "scripts": {
     "start": "node app.js",
     "migrate": "npx sequelize-cli db:migrate",
-    "create-migration": "npx sequelize-cli migration:generate --name"
+    "create-migration": "npx sequelize-cli migration:generate --name",
+    "lint": "eslint --fix ."
   },
   "dependencies": {
     "base64-2-img": "^1.0.0",
@@ -19,6 +20,11 @@
     "sequelize": "^6.21.4"
   },
   "devDependencies": {
+    "eslint": "^8.35.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-promise": "^6.1.1",
     "sequelize-cli": "^6.4.1"
   }
 }

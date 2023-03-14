@@ -1,14 +1,13 @@
-const db = require("../../db.js");
-const Photo = db.Photo;
-const User = db.User;
-const UserRegisterInfo = db.UserRegisterInfo;
-const MiddleFormAnswers = db.MiddleFormAnswers;
-const EndFormAnswers = db.EndFormAnswers;
-const transformer = require("./transformer.js");
-const fs = require('fs');
+const db = require('../../db.js')
+const Photo = db.Photo
+const User = db.User
+const UserRegisterInfo = db.UserRegisterInfo
+const MiddleFormAnswers = db.MiddleFormAnswers
+const EndFormAnswers = db.EndFormAnswers
+const transformer = require('./transformer.js')
 
-async function getUserProfile(req, res) {
-  const userId = req.params.userId;
+async function getUserProfile (req, res) {
+  const userId = req.params.userId
   const user = await User.findByPk(userId, {
     include: [
       {
@@ -18,23 +17,23 @@ async function getUserProfile(req, res) {
       },
       {
         model: UserRegisterInfo,
-        as: 'userRegisterInfo',
+        as: 'userRegisterInfo'
       },
       {
         model: MiddleFormAnswers,
-        as: 'middleFormAnswers',
+        as: 'middleFormAnswers'
       },
       {
         model: EndFormAnswers,
-        as: 'endFormAnswers',
+        as: 'endFormAnswers'
       }
     ]
-  });
+  })
   if (!user) {
-    res.status(200).json({});
+    res.status(200).json({})
     return
   }
-  res.status(200).json(transformer(user));
+  res.status(200).json(transformer(user))
 }
 
-module.exports = getUserProfile;
+module.exports = getUserProfile

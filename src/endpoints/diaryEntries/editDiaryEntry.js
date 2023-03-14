@@ -1,19 +1,19 @@
-const db = require("../../db.js");
-const DiaryEntry = db.DiaryEntry;
+const db = require('../../db.js')
+const DiaryEntry = db.DiaryEntry
 
-async function editDiaryEntry(req, res) {
-    var diaryEntryId = req.body.entryId;
-    var text = req.body.entry;
-   const updatedRows = await DiaryEntry.update(
+async function editDiaryEntry (req, res) {
+  const diaryEntryId = req.body.entryId
+  const text = req.body.entry
+  await DiaryEntry.update(
     {
-        entryId: diaryEntryId,
-        text: text
+      entryId: diaryEntryId,
+      text
     },
     {
-      where: { diaryEntryId: diaryEntryId },
+      where: { diaryEntryId }
     }
-  );
-    res.status(200).json({message: "Entrada de campo editada exitosamente"});
+  )
+  res.status(200).json({ message: 'Entrada de campo editada exitosamente' })
 }
 
-module.exports = editDiaryEntry;
+module.exports = editDiaryEntry

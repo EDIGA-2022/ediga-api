@@ -1,59 +1,59 @@
 module.exports = (sequelize, Sequelize) => {
-    const UserRegisterInfo = sequelize.define("UserRegisterInfo", {
-        userId: {
-            primaryKey: true,
-            type: Sequelize.UUID,
-            field: 'UserId', 
-            allowNull: false,       
-        },
-        completedAt: {
-            type: Sequelize.DATE,
-            field: 'Date_of_completion',
-            allowNull: false,
-            defaultValue: Sequelize.fn('NOW')
-        },
-        answer1: {
-            type: Sequelize.INTEGER,
-            field: 'Answer_1'
-        },
-        answer1Field: {
-            type: Sequelize.STRING,
-            field: 'Answer_1_open_field'   
-        },
-        answer2: {
-            type: Sequelize.INTEGER,
-            field: 'Answer_2'
-        },
-        answer3: {
-            type: Sequelize.STRING,
-            field: 'Answer_3'   
-        },
-        answer3Field: {
-            type: Sequelize.STRING,
-            field: 'Answer_3_open_field'   
-        },
-        alias: {
-            type: Sequelize.STRING,
-            field: 'Alias'   
-        },
-        createdAt: {
-            type: Sequelize.DATE,
-            field: 'created_at',
-        },
-        updatedAt: {
-            type: Sequelize.DATE,
-            field: 'edited_at',
-        },
-        deletedAt: {
-            type: Sequelize.DATE,
-            field: 'deleted_at',
-        }
+  const UserRegisterInfo = sequelize.define('UserRegisterInfo', {
+    userId: {
+      primaryKey: true,
+      type: Sequelize.UUID,
+      field: 'UserId',
+      allowNull: false
     },
-    {
-        freezeTableName: true,
-        paranoid: true,
-        timestamps: true,
-    });
-    
-    return UserRegisterInfo;
-};
+    completedAt: {
+      type: Sequelize.DATE,
+      field: 'Date_of_completion',
+      allowNull: false,
+      defaultValue: Sequelize.fn('NOW')
+    },
+    answer1: {
+      type: Sequelize.INTEGER,
+      field: 'Answer_1'
+    },
+    answer1Field: {
+      type: Sequelize.STRING,
+      field: 'Answer_1_open_field'
+    },
+    answer2: {
+      type: Sequelize.INTEGER,
+      field: 'Answer_2'
+    },
+    answer3: {
+      type: Sequelize.STRING,
+      field: 'Answer_3'
+    },
+    answer3Field: {
+      type: Sequelize.STRING,
+      field: 'Answer_3_open_field'
+    },
+    alias: {
+      type: Sequelize.STRING,
+      field: 'Alias'
+    },
+    createdAt: {
+      type: Sequelize.DATE,
+      field: 'created_at'
+    },
+    updatedAt: {
+      type: Sequelize.DATE,
+      field: 'edited_at'
+    },
+    deletedAt: {
+      type: Sequelize.DATE,
+      field: 'deleted_at'
+    }
+  },
+  {
+    freezeTableName: true,
+    paranoid: true,
+    timestamps: true
+  })
+
+  return UserRegisterInfo
+}

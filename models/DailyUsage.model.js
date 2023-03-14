@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  const DailyUsage = sequelize.define("DailyUsage", {
+  const DailyUsage = sequelize.define('DailyUsage', {
     dailyUsageId: {
       primaryKey: true,
       type: Sequelize.INTEGER,
@@ -20,12 +20,12 @@ module.exports = (sequelize, Sequelize) => {
     usageTime: {
       type: Sequelize.TIME,
       allowNull: false,
-      field: 'Usage_time',
+      field: 'Usage_time'
     }
   },
-    {
-      freezeTableName: true,
-    });
+  {
+    freezeTableName: true
+  })
 
-  return DailyUsage;
-};
+  return DailyUsage
+}

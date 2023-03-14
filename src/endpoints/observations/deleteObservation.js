@@ -1,12 +1,12 @@
-const db = require("../../db.js");
-const Observation = db.Observation;
+const db = require('../../db.js')
+const Observation = db.Observation
 
-async function deleteObservation(req, res) {
-	const observationId = req.params.observationId;
-	await Observation.destroy({
-		where: { observationId },
-	});
-	res.status(200).json({ message: "Observación eliminada exitosamente" });
+async function deleteObservation (req, res) {
+  const observationId = req.params.observationId
+  await Observation.destroy({
+    where: { observationId }
+  })
+  res.status(200).json({ message: 'Observación eliminada exitosamente' })
 }
 
-module.exports = deleteObservation;
+module.exports = deleteObservation
